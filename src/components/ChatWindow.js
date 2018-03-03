@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
@@ -42,6 +43,7 @@ const styles = (theme) => ({
 class ChatWindow extends Component {
   state = {
     anchorEl: null,
+    isJoined: true,
     messages: [
       {
         id: 1,
@@ -128,9 +130,14 @@ class ChatWindow extends Component {
             }
           </section>
           <Paper className={classes.newMessageFieldWrapper}>
-            <form>
-              <Input placeholder="Type your message..." fullWidth />
-            </form>
+            {this.state.isJoined &&
+              (<form>
+                <Input placeholder="Type your message..." fullWidth />
+              </form>)
+            }
+            {!this.state.isJoined &&
+              (<Button variant="raised" color="primary" fullWidth> Join </Button>)
+            }
           </Paper>
         </main>
       </div>
