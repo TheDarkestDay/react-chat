@@ -13,6 +13,7 @@ const styles = (theme) => ({
     minWidth: '320px'
   },
   chatWindow: {
+    flexBasis: 0,
     flexGrow: 1
   }
 });
@@ -25,7 +26,8 @@ class ChatPage extends Component {
       <Grid 
         className={classes.mainWrapper} 
         container 
-        direction="row" 
+        direction="row"
+        wrap="nowrap" 
         spacing={0}>
         <Grid className={classes.sidebar} item>
           <Sidebar />

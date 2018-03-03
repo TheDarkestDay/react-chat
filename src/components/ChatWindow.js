@@ -3,19 +3,65 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
+import Paper from 'material-ui/Paper';
+import Input from 'material-ui/Input';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
+import ChatMessage from './ChatMessage';
+
+const chatHeaderHeight = '64px';
+const newMessageFormHeight = '64px';
+
 const styles = (theme) => ({
   chatHeader: {
     justifyContent: 'space-between'
+  },
+  chatWindowWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  },
+  main: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '16px  24px'
+  },
+  messagesList: {
+    overflow: 'auto',
+    maxHeight: `calc(100vh - ${chatHeaderHeight} - ${newMessageFormHeight})`,
+    flexGrow: 1
+  },
+  newMessageFieldWrapper: {
+    padding: '16px 24px'
   }
 });
 
 class ChatWindow extends Component {
   state = {
     anchorEl: null,
+    messages: [
+      {
+        id: 1,
+        username: 'Alexander Brenchev',
+        content: 'A sample text',
+        createdAt: '21-Jan-1975'
+      },
+      {
+        id: 2,
+        username: 'Alexander Brenchev',
+        content: 'A sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample text',
+        createdAt: '21-Jan-1975'
+      },
+      {
+        id: 3,
+        username: 'Alexander Brenchev',
+        content: 'A sample text',
+        createdAt: '21-Jan-1975'
+      }
+    ]
   };
 
   handleChange = (event, checked) => {
@@ -36,7 +82,7 @@ class ChatWindow extends Component {
     const isOpened = Boolean(anchorEl);
 
     return (
-      <div>
+      <div className={classes.chatWindowWrapper}>
         <AppBar position="static">
           <Toolbar className={classes.chatHeader}>
             <Typography variant="title" color="inherit">
@@ -71,10 +117,21 @@ class ChatWindow extends Component {
             </div>
           </Toolbar>
         </AppBar>
-        <main>
-          <h2>
-            Chat window
-          </h2>
+        <main className={classes.main}>
+          <section className={classes.messagesList}>
+            {
+              this.state.messages.map((message) => {
+                return (
+                  <ChatMessage key={message.id} {...message} />
+                );
+              })
+            }
+          </section>
+          <Paper className={classes.newMessageFieldWrapper}>
+            <form>
+              <Input placeholder="Type your message..." fullWidth />
+            </form>
+          </Paper>
         </main>
       </div>
     );
