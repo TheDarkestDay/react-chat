@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
-import { CardContent, CardActions } from 'material-ui/Card';
+import { CardContent } from 'material-ui/Card';
 import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl} from 'material-ui/Form';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -58,7 +58,7 @@ class SignupForm extends Component {
           <FormControl className={classes.formControl} required>
             <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
             <Input id="confirmPassword" className={classes.input}
-              value={password}
+              value={passwordConfirmation}
               onChange={this.handleFieldChange.bind(this, 'passwordConfirmation')}
               placeholder="Repeat your password" />
           </FormControl>
