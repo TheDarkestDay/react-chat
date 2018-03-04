@@ -38,6 +38,25 @@ const backend = {
 
       return responseBody;
     })
+  },
+  getWhoami() {
+    const token = localStorage.getItem('token');
+
+    return fetch(REST_API.USERS.WHOAMI, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then((response => response.json()))
+    .then((responseBody) => {
+      const { success, message, user } = responseBody;
+
+      if (!success) {
+        throw message;
+      }
+
+      return user;
+    })
   }
 };
 

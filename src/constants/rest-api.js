@@ -5,6 +5,9 @@ const REST_API = {
   AUTH: {
     LOGIN: `${API_ROOT}/login`,
     SIGNUP: `${API_ROOT}/signup`
+  },
+  USERS: {
+    WHOAMI: `${API_ROOT}/users/me`
   }
 };
 

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
-import { PrivateRoute } from '../components/PrivateRoute';
+import PrivateRoute from '../components/PrivateRoute';
+import { getWhoami } from '../actions/auth';
 
 const mapStateToProps = (state) => {
   return {
@@ -8,7 +9,15 @@ const mapStateToProps = (state) => {
   }
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getWhoami: () => {
+      dispatch(getWhoami());
+    }
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(PrivateRoute);

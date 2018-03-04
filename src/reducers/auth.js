@@ -14,6 +14,7 @@ export default function auth(state = initialState, action) {
   switch(type) {
     case ActionType.LOGIN_SUCCESS:
     case ActionType.SIGNUP_SUCCESS:
+    case ActionType.WHOAMI_SUCCESS:
       return {
         isAuthenticated: true,
         isRequestInProgress: false,
@@ -23,6 +24,7 @@ export default function auth(state = initialState, action) {
       };
     case ActionType.LOGIN_ERROR:
     case ActionType.SIGNUP_ERROR:
+    case ActionType.WHOAMI_ERROR:
       return {
         ...initialState,
         isErrorMessageShown: true,

@@ -67,6 +67,29 @@ export function signupError(errorMessage) {
   }
 }
 
+export function getWhoami() {
+  return (dispatch) => {
+    backend
+      .getWhoami()
+      .then((user) => dispatch(whoamiSuccess(user)))
+      .catch((error) => dispatch(whoamiError(error)))
+  };
+}
+
+export function whoamiSuccess(user) {
+  return {
+    type: ActionType.WHOAMI_SUCCESS,
+    payload: user
+  }
+}
+
+export function whoamiError(errorMessage) {
+  return {
+    type: ActionType.WHOAMI_ERROR,
+    payload: errorMessage
+  }
+}
+
 export function closeSnackbar() {
   return {
     type: ActionType.SNACKBAR_CLOSE
