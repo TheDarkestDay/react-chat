@@ -3,21 +3,11 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import Reboot from 'material-ui/Reboot';
 import 'typeface-roboto';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 
+import store from './store';
 import AuthPage from './containers/AuthPage';
 import ChatPage from './components/ChatPage';
-import { rootReducer } from './reducers';
-
-let store = createStore(
-  rootReducer,
-  applyMiddleware(
-    thunk,
-    logger
-  )
-);
+import PrivateRoute from './containers/PrivateRoute';
 
 class App extends Component {
   render() {
@@ -28,7 +18,7 @@ class App extends Component {
             <Reboot />
             <Switch>
               <Route path="/" exact component={AuthPage} />
-              <Route path="/chat" component={ChatPage} />
+              <PrivateRoute path="/chat" component={ChatPage} />
               <Redirect to="/" />
             </Switch>
           </React.Fragment>
