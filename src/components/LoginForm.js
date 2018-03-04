@@ -19,22 +19,25 @@ const styles = (theme) => ({
 });
 
 class LoginForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: ''
-    };
+  state = {
+    username: '',
+    password: ''
   }
 
-  handleFieldChange(evt, field, value) {
+  handleFieldChange(field, evt) {
     this.setState({
-      [field]: value
+      [field]: evt.target.value
+    });
+  }
+
+  login() {
+    this.props.login({
+      username: this.state.username,
+      password: this.state.password
     });
   }
 
   render() {
-    const { username, password } = this.state;
     const { classes } = this.props;
 
     return (
@@ -42,19 +45,27 @@ class LoginForm extends Component {
         <CardContent>
           <FormControl className={classes.formControl} required>
             <InputLabel htmlFor="username">Name</InputLabel>
-            <Input id="username" className={classes.input}
-              value={username}
+            <Input
+              id="username"
+              className={classes.input}
               onChange={this.handleFieldChange.bind(this, 'username')}
               placeholder="Type your username" />
           </FormControl>
           <FormControl className={classes.formControl} required>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input id="password" className={classes.input}
-              value={password}
+            <Input
+              id="password"
+              className={classes.input}
               onChange={this.handleFieldChange.bind(this, 'password')}
+              type="password"
               placeholder="Type your password" />
           </FormControl>
-          <Button className={classes.submitBtn} variant="raised" color="primary" fullWidth>
+          <Button
+            className={classes.submitBtn}
+            variant="raised"
+            color="primary"
+            fullWidth
+            onClick={this.login.bind(this)}>
             Login
           </Button>
         </CardContent>
