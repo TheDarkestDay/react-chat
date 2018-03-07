@@ -78,6 +78,10 @@ class ChatWindow extends Component {
     this.setState({ anchorEl: null });
   };
 
+  handleLogoutClick = () => {
+    this.props.quit();
+  }
+
   render() {
     const { anchorEl } = this.state;
     const { classes } = this.props;
@@ -114,7 +118,7 @@ class ChatWindow extends Component {
                 onClose={this.handleClose}
               >
                 <MenuItem onClick={this.handleClose}>Edit profile</MenuItem>
-                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
               </Menu>
             </div>
           </Toolbar>

@@ -3,7 +3,7 @@ import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 
 import Sidebar from './Sidebar';
-import ChatWindow from './ChatWindow';
+import ChatWindow from '../containers/ChatWindow';
 
 const styles = (theme) => ({
   mainWrapper: {

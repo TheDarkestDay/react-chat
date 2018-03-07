@@ -90,6 +90,12 @@ export function whoamiError(errorMessage) {
   }
 }
 
+export function logout() {
+  return {
+    type: ActionType.LOGOUT
+  }
+}
+
 export function closeSnackbar() {
   return {
     type: ActionType.SNACKBAR_CLOSE

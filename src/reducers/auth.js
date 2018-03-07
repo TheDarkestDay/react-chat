@@ -38,6 +38,8 @@ export default function auth(state = initialState, action) {
         errorMessage: null,
         isRequestInProgress: true
       }
+    case ActionType.LOGOUT:
+      return initialState;
     case ActionType.SNACKBAR_CLOSE:
       return {
         ...state,
