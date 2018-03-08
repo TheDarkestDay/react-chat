@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Input from 'material-ui/Input';
 import Paper from 'material-ui/Paper';
 import List, { ListItem, ListItemText } from 'material-ui/List';
@@ -10,10 +11,15 @@ import RestoreIcon from 'material-ui-icons/Restore';
 import ExploreIcon from 'material-ui-icons/Explore';
 import { withStyles } from 'material-ui/styles';
 
+import CreateChannelDialog from './dialogs/CreateChannelDialog';
+
 const chatSearchFormHeight = '64px';
 const bottomNavigationHeight = '56px';
 
 const styles = (theme) => ({
+  chatLink: {
+    textDecoration: 'none'
+  },
   searchChatForm: {
     padding: '16px 24px'
   },
@@ -57,17 +63,30 @@ class Sidebar extends Component {
       }
     ],
     currentTabIndex: 0,
+    isDialogOpened: false
   };
 
+  handleDialogClose = () => {
+    this.setState({
+      isDialogOpened: false
+    });
+  }
+
   handleTabChange = (event, value) => {
-    this.setState({ 
-      currentTabIndex: value 
+    this.setState({
+      currentTabIndex: value
     });
   };
 
+  openCreateChannelDialog = () => {
+    this.setState({
+      isDialogOpened: true
+    });
+  }
+
   render() {
     const { classes } = this.props;
-    const { currentTabIndex } = this.state;
+    const { currentTabIndex, isDialogOpened } = this.state;
 
     return (
       <aside className={classes.sidebar}>
@@ -76,33 +95,36 @@ class Sidebar extends Component {
             <Input
               id="chatSearch"
               placeholder="Search chats..."
-              value={this.state.chatQuery} 
+              value={this.state.chatQuery}
               fullWidth />
           </form>
         </Paper>
         <List className={classes.chatsList}>
           {this.state.chats.map((chat) => {
             return (
-              <ListItem key={chat.id} button>
-                <Avatar>{chat.name[0]}</Avatar>
-                <ListItemText 
-                  primary={chat.name} 
-                  secondary={`${chat.daysSinceLastActivity} days ago`}>
-                </ListItemText>
-              </ListItem>
+              <Link className={classes.chatLink} to={`/chat/${chat.id}`} key={chat.id}>
+                <ListItem button>
+                  <Avatar>{chat.name[0]}</Avatar>
+                  <ListItemText
+                    primary={chat.name}
+                    secondary={`${chat.daysSinceLastActivity} days ago`}>
+                  </ListItemText>
+                </ListItem>
+              </Link>
             );
           })}
         </List>
-        <Button className={classes.addChatBtn} variant="fab" color="primary" aria-label="add">
+        <Button className={classes.addChatBtn} onClick={this.openCreateChannelDialog} variant="fab" color="primary" aria-label="add">
           <AddIcon />
         </Button>
-        <BottomNavigation 
+        <BottomNavigation
           value={currentTabIndex}
           onChange={this.handleTabChange}
           showLabels>
           <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
         </BottomNavigation>
+        <CreateChannelDialog isOpened={isDialogOpened} onClose={this.handleDialogClose}/>
       </aside>
     );
   }

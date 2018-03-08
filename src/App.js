@@ -19,7 +19,7 @@ class App extends Component {
             <Reboot />
             <Switch>
               <Route path="/" exact component={AuthPage} />
-              <PrivateRoute path="/chat" component={ChatPage} />
+              <PrivateRoute path="/chat/:id?" component={ChatPage} />
               <Redirect to="/" />
             </Switch>
           </React.Fragment>

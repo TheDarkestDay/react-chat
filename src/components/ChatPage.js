@@ -20,7 +20,7 @@ const styles = (theme) => ({
 
 class ChatPage extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, match } = this.props;
 
     return (
       <Grid 
