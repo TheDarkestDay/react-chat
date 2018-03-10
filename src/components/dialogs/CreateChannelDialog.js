@@ -18,7 +18,11 @@ export default class CreateChannelDialog extends Component {
     });
   }
 
-  handleDone = () => {}
+  handleDone = () => {
+    this.props.onDone({
+      title: this.state.channelName
+    });
+  }
 
   render() {
     const { isOpened, onClose } = this.props;

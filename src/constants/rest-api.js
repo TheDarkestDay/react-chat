@@ -1,5 +1,5 @@
 
-const API_ROOT = 'http://localhost:8080/v1';
+const API_ROOT = 'http://localhost:8083/v1';
 
 const REST_API = {
   AUTH: {
@@ -8,6 +8,10 @@ const REST_API = {
   },
   USERS: {
     WHOAMI: `${API_ROOT}/users/me`
+  },
+  CHATS: {
+    BASE: `${API_ROOT}/chats`,
+    MY: `${API_ROOT}/chats/me`
   }
 };
 

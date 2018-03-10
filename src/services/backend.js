@@ -57,6 +57,50 @@ const backend = {
 
       return user;
     })
+  },
+  getChats() {
+    const token = localStorage.getItem('token');
+
+    return fetch(REST_API.CHATS.BASE, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      } 
+    })
+    .then((response) => response.json())
+    .then((responseBody) => {
+      const { message, success } = responseBody;
+
+      if (!success) {
+        throw message;
+      }
+
+      return responseBody;
+    });
+  },
+  createChat(chatData) {
+    const token = localStorage.getItem('token');
+
+    const requestBody = {
+      data: chatData
+    };
+
+    return fetch(REST_API.CHATS.BASE, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Authorization': `Bearer ${token}`
+      } 
+    })
+    .then((response) => response.json())
+    .then((responseBody) => {
+      const { message, success } = responseBody;
+
+      if (!success) {
+        throw message;
+      }
+
+      return responseBody;
+    });
   }
 };
 

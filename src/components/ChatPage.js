@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 
-import Sidebar from './Sidebar';
+import Sidebar from '../containers/Sidebar';
 import ChatWindow from '../containers/ChatWindow';
 
 const styles = (theme) => ({

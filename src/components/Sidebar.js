@@ -45,23 +45,6 @@ const styles = (theme) => ({
 class Sidebar extends Component {
   state = {
     chatQuery: '',
-    chats: [
-      {
-        id: 1,
-        name: 'React talks',
-        daysSinceLastActivity: 1
-      },
-      {
-        id: 2,
-        name: 'Angular talks',
-        daysSinceLastActivity: 2
-      },
-      {
-        id: 3,
-        name: 'Vue talks',
-        daysSinceLastActivity: 3
-      }
-    ],
     currentTabIndex: 0,
     isDialogOpened: false
   };
@@ -70,6 +53,11 @@ class Sidebar extends Component {
     this.setState({
       isDialogOpened: false
     });
+  }
+
+  handleDialogDone = (chatData) => {
+    this.handleDialogClose();
+    this.props.createChat(chatData);
   }
 
   handleTabChange = (event, value) => {
@@ -85,7 +73,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, chats } = this.props;
     const { currentTabIndex, isDialogOpened } = this.state;
 
     return (
@@ -100,7 +88,7 @@ class Sidebar extends Component {
           </form>
         </Paper>
         <List className={classes.chatsList}>
-          {this.state.chats.map((chat) => {
+          {chats.map((chat) => {
             return (
               <Link className={classes.chatLink} to={`/chat/${chat.id}`} key={chat.id}>
                 <ListItem button>
@@ -124,7 +112,7 @@ class Sidebar extends Component {
           <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
         </BottomNavigation>
-        <CreateChannelDialog isOpened={isDialogOpened} onClose={this.handleDialogClose}/>
+        <CreateChannelDialog isOpened={isDialogOpened} onClose={this.handleDialogClose} onDone={this.handleDialogDone}/>
       </aside>
     );
   }
