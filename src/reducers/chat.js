@@ -22,6 +22,12 @@ export default function chat(state = initialState, action) {
         isRequestInProgress: false,
         chats: state.chats.concat(payload)
       }
+    case ActionType.GET_CHATS_SUCCESS:
+      return {
+        ...state,
+        isRequestInProgress: false,
+        chats: payload
+      }
     case ActionType.CREATE_CHAT_ERROR:
       return {
         ...state,

@@ -1,5 +1,5 @@
 
-const API_ROOT = 'http://localhost:8083/v1';
+const API_ROOT = 'http://localhost:8080/v1';
 
 const REST_API = {
   AUTH: {

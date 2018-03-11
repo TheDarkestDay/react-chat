@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { createChat } from '../actions/chat';
+import { createChat, getChats } from '../actions/chat';
 import Sidebar from '../components/Sidebar';
 
 const mapStateToProps = (state) => {
@@ -13,6 +13,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createChat: (chatData) => {
       dispatch(createChat(chatData));
+    },
+    getChats: () => {
+      dispatch(getChats());
     }
   }
 }

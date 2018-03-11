@@ -68,38 +68,41 @@ const backend = {
     })
     .then((response) => response.json())
     .then((responseBody) => {
-      const { message, success } = responseBody;
+      const { message, success, chats } = responseBody;
 
       if (!success) {
         throw message;
       }
 
-      return responseBody;
+      return chats;
     });
   },
-  createChat(chatData) {
+  createChat(chatTitle) {
     const token = localStorage.getItem('token');
 
     const requestBody = {
-      data: chatData
+      data: {
+        title: chatTitle
+      }
     };
 
     return fetch(REST_API.CHATS.BASE, {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'content-type': 'application/json'
       } 
     })
     .then((response) => response.json())
     .then((responseBody) => {
-      const { message, success } = responseBody;
+      const { message, success, chat } = responseBody;
 
       if (!success) {
         throw message;
       }
 
-      return responseBody;
+      return chat;
     });
   }
 };

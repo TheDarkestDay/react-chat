@@ -9,19 +9,17 @@ import Dialog, {
 
 export default class CreateChannelDialog extends Component {
   state = {
-    channelName: ''
+    title: ''
   };
 
-  handleChannelNameChange = (evt) => {
+  handleChannelTitleChange = (evt) => {
     this.setState({
-      channelName: evt.target.value
+      title: evt.target.value
     });
   }
 
   handleDone = () => {
-    this.props.onDone({
-      title: this.state.channelName
-    });
+    this.props.onDone(this.state.title);
   }
 
   render() {
@@ -38,7 +36,7 @@ export default class CreateChannelDialog extends Component {
         </DialogTitle>
         <DialogContent>
           <TextField
-            onChange={this.handleChannelNameChange}
+            onChange={this.handleChannelTitleChange}
             autoFocus
             margin="dense"
             id="name"

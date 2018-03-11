@@ -11,6 +11,7 @@ import RestoreIcon from 'material-ui-icons/Restore';
 import ExploreIcon from 'material-ui-icons/Explore';
 import { withStyles } from 'material-ui/styles';
 
+import generateLastActivityMessage from '../services/generate-last-activity-message';
 import CreateChannelDialog from './dialogs/CreateChannelDialog';
 
 const chatSearchFormHeight = '64px';
@@ -49,15 +50,19 @@ class Sidebar extends Component {
     isDialogOpened: false
   };
 
+  componentDidMount() {
+    this.props.getChats();
+  }
+
   handleDialogClose = () => {
     this.setState({
       isDialogOpened: false
     });
   }
 
-  handleDialogDone = (chatData) => {
+  handleDialogDone = (chatTitle) => {
     this.handleDialogClose();
-    this.props.createChat(chatData);
+    this.props.createChat(chatTitle);
   }
 
   handleTabChange = (event, value) => {
@@ -90,12 +95,12 @@ class Sidebar extends Component {
         <List className={classes.chatsList}>
           {chats.map((chat) => {
             return (
-              <Link className={classes.chatLink} to={`/chat/${chat.id}`} key={chat.id}>
+              <Link className={classes.chatLink} to={`/chat/${chat._id}`} key={chat._id}>
                 <ListItem button>
-                  <Avatar>{chat.name[0]}</Avatar>
+                  <Avatar>{chat.title[0]}</Avatar>
                   <ListItemText
-                    primary={chat.name}
-                    secondary={`${chat.daysSinceLastActivity} days ago`}>
+                    primary={chat.title}
+                    secondary={generateLastActivityMessage(chat.updatedAt)}>
                   </ListItemText>
                 </ListItem>
               </Link>
