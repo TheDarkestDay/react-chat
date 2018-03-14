@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import Card, {} from 'material-ui/Card';
+import Card, { } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
+import { LinearProgress } from 'material-ui/Progress';
+import Snackbar from 'material-ui/Snackbar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
+import { Redirect } from 'react-router-dom';
 
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
+import LoginForm from '../containers/LoginForm';
+import SignupForm from '../containers/SignupForm';
 
 const styles = (theme) => ({
   appHeader: {
+    position: 'relative',
     marginBottom: '24px'
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   formWrapper: {
     minWidth: '500px'
+  },
+  progressBar: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0
   },
   tabs: {
     backgroundColor: '#f5f5f5',
@@ -29,12 +43,17 @@ const TabIndex = {
 };
 
 class AuthPage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      currentTabIndex: 0
-    };
+  state = {
+    currentTabIndex: 0
   }
+
+  handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.props.closeSnackbar();
+  };
 
   handleTabChange(event, newIndex) {
     this.setState({
@@ -43,8 +62,14 @@ class AuthPage extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, errorMessage, isAuthenticated, isErrorMessageShown, isRequestInProgress } = this.props;
     const { currentTabIndex } = this.state;
+
+    if (isAuthenticated) {
+      return (
+        <Redirect to="/chat" />
+      )
+    }
 
     return (
       <React.Fragment>
@@ -54,20 +79,34 @@ class AuthPage extends Component {
               DogeCodes React Chat
             </Typography>
           </Toolbar>
+          {isRequestInProgress && <LinearProgress className={classes.progressBar} />}
         </AppBar>
         <main>
-          <Grid container justify="center">
+          <section className={classes.flexRow}>
             <Grid item>
               <Card className={classes.formWrapper}>
                 <Tabs className={classes.tabs} value={currentTabIndex} onChange={this.handleTabChange.bind(this)} fullWidth>
                   <Tab label="Login" />
                   <Tab label="Sign up" />
                 </Tabs>
-                { currentTabIndex === TabIndex.LOGIN && <LoginForm /> }
-                { currentTabIndex === TabIndex.SIGN_UP && <SignupForm /> }
+                {currentTabIndex === TabIndex.LOGIN && <LoginForm />}
+                {currentTabIndex === TabIndex.SIGN_UP && <SignupForm />}
               </Card>
             </Grid>
-          </Grid>
+          </section>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={isErrorMessageShown}
+            autoHideDuration={2000}
+            onClose={this.handleSnackbarClose}
+            SnackbarContentProps={{
+              'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">{errorMessage}</span>}
+          />
         </main>
       </React.Fragment>
     );
