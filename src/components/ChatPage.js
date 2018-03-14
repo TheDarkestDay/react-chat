@@ -33,7 +33,7 @@ class ChatPage extends Component {
           <Sidebar />
         </Grid>
         <Grid className={classes.chatWindow} item>
-          <ChatWindow />
+          <ChatWindow currentChatId={match.params.id} />
         </Grid>
       </Grid>
     );

@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
-import Paper from 'material-ui/Paper';
-import Input from 'material-ui/Input';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
-import ChatMessage from './ChatMessage';
-
-const chatHeaderHeight = '64px';
-const newMessageFormHeight = '64px';
+import ChatWelcome from './ChatWelcome';
+import MessagesList from './MessagesList';
+import NewMessageForm from './NewMessageForm';
 
 const styles = (theme) => ({
   chatHeader: {
@@ -29,14 +25,6 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: '16px  24px'
-  },
-  messagesList: {
-    overflow: 'auto',
-    maxHeight: `calc(100vh - ${chatHeaderHeight} - ${newMessageFormHeight})`,
-    flexGrow: 1
-  },
-  newMessageFieldWrapper: {
-    padding: '16px 24px'
   }
 });
 
@@ -83,9 +71,10 @@ class ChatWindow extends Component {
   }
 
   render() {
-    const { anchorEl } = this.state;
-    const { classes } = this.props;
+    const { anchorEl, messages } = this.state;
+    const { classes, currentChatId } = this.props;
     const isOpened = Boolean(anchorEl);
+
 
     return (
       <div className={classes.chatWindowWrapper}>
@@ -124,25 +113,12 @@ class ChatWindow extends Component {
           </Toolbar>
         </AppBar>
         <main className={classes.main}>
-          <section className={classes.messagesList}>
-            {
-              this.state.messages.map((message) => {
-                return (
-                  <ChatMessage key={message.id} {...message} />
-                );
-              })
-            }
-          </section>
-          <Paper className={classes.newMessageFieldWrapper}>
-            {this.state.isJoined &&
-              (<form>
-                <Input placeholder="Type your message..." fullWidth />
-              </form>)
-            }
-            {!this.state.isJoined &&
-              (<Button variant="raised" color="primary" fullWidth> Join </Button>)
-            }
-          </Paper>
+          {
+            currentChatId 
+              ? <MessagesList messages={messages}/>
+              : <ChatWelcome />
+          }
+          { currentChatId && <NewMessageForm /> }
         </main>
       </div>
     );
