@@ -7,8 +7,8 @@ export function login(credentials) {
 
     backend
       .login(credentials)
-      .then((responseData) => {
-        localStorage.setItem('token', responseData.token);
+      .then((token) => {
+        localStorage.setItem('token', token);
         dispatch(loginSuccess())
       })
       .catch((error) => dispatch(loginError(error)))

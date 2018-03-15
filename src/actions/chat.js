@@ -8,7 +8,7 @@ export function createChat(chatTitle) {
     dispatch(createChatRequest());
 
     backend
-      .createChat(chatTitle)
+      .createChat({ title: chatTitle })
       .then((responseData) => dispatch(createChatSuccess(responseData)))
       .catch((error) => dispatch(createChatError(error)))
   }

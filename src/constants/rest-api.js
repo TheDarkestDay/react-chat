@@ -11,7 +11,8 @@ const REST_API = {
   },
   CHATS: {
     BASE: `${API_ROOT}/chats`,
-    MY: `${API_ROOT}/chats/me`
+    MY: `${API_ROOT}/chats/me`,
+    JOIN: (chatId) => `${API_ROOT}/chats/${chatId}/join` 
   }
 };
 

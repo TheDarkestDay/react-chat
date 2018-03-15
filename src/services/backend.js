@@ -1,5 +1,42 @@
 import REST_API from '../constants/rest-api';
 
+function createGetRequest(url, dataPath) {
+  const token = localStorage.getItem('token');
+
+  return fetch(url, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then((response) => response.json())
+  .then((responseBody) => processResponse(responseBody, dataPath));
+}
+
+function createPostRequest(url, requestBody, dataPath) {
+  const token = localStorage.getItem('token');
+
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ data: requestBody }),
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type': 'application/json'
+    }
+  })
+  .then((response) => response.json())
+  .then((responseBody) => processResponse(responseBody, dataPath))
+}
+
+function processResponse(responseBody, dataPath) {
+  const { message, success } = responseBody;
+
+  if (!success) {
+    throw message;
+  }
+
+  return responseBody[dataPath];
+}
+
 const backend = {
   login(credentials) {
     return fetch(REST_API.AUTH.LOGIN, {
@@ -10,15 +47,7 @@ const backend = {
       }
     })
     .then((response) => response.json())
-    .then((responseBody) => {
-      const { message, success } = responseBody;
-
-      if (!success) {
-        throw message;
-      }
-
-      return responseBody;
-    })
+    .then((responseBody) => processResponse(responseBody, 'token'));
   },
   signup(credentials) {
     return fetch(REST_API.AUTH.SIGNUP, {
@@ -29,81 +58,16 @@ const backend = {
       }
     })
     .then((response) => response.json())
-    .then((responseBody) => {
-      const { message, success } = responseBody;
-
-      if (!success) {
-        throw message;
-      }
-
-      return responseBody;
-    })
+    .then((responseBody) => processResponse(credentials, 'token'));
   },
   getWhoami() {
-    const token = localStorage.getItem('token');
-
-    return fetch(REST_API.USERS.WHOAMI, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then((response => response.json()))
-    .then((responseBody) => {
-      const { success, message, user } = responseBody;
-
-      if (!success) {
-        throw message;
-      }
-
-      return user;
-    })
+    return createGetRequest(REST_API.USERS.WHOAMI, 'user');
   },
   getChats() {
-    const token = localStorage.getItem('token');
-
-    return fetch(REST_API.CHATS.BASE, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      } 
-    })
-    .then((response) => response.json())
-    .then((responseBody) => {
-      const { message, success, chats } = responseBody;
-
-      if (!success) {
-        throw message;
-      }
-
-      return chats;
-    });
+    return createGetRequest(REST_API.CHATS.BASE, 'chats');
   },
   createChat(chatTitle) {
-    const token = localStorage.getItem('token');
-
-    const requestBody = {
-      data: {
-        title: chatTitle
-      }
-    };
-
-    return fetch(REST_API.CHATS.BASE, {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'content-type': 'application/json'
-      } 
-    })
-    .then((response) => response.json())
-    .then((responseBody) => {
-      const { message, success, chat } = responseBody;
-
-      if (!success) {
-        throw message;
-      }
-
-      return chat;
-    });
+    return createPostRequest(REST_API.CHATS.BASE, chatTitle, 'chat');
   }
 };
 
