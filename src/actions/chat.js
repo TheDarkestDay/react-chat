@@ -65,6 +65,44 @@ export function getChatsError(error) {
   }
 }
 
+export function joinChat(chatId) {
+  return (dispatch) => {
+    dispatch(joinChatRequest());
+
+    backend
+      .joinChat(chatId)
+      .then((responseData) => dispatch(joinChatSuccess(responseData)))
+      .catch((error) => dispatch(joinChatError(error)))
+  };
+}
+
+export function joinChatRequest() {
+  return {
+    type: ActionType.JOIN_CHAT_REQUEST
+  }
+}
+
+export function joinChatSuccess(updatedChat) {
+  return {
+    type: ActionType.JOIN_CHAT_SUCCESS,
+    payload: updatedChat
+  }
+}
+
+export function joinChatError(error) {
+  return {
+    type: ActionType.JOIN_CHAT_ERROR,
+    payload: error
+  }
+}
+
+export function setActiveChat(chatId) {
+  return {
+    type: ActionType.SET_ACTIVE_CHAT,
+    payload: chatId
+  }
+}
+
 export function quit() {
   return (dispatch) => {
     dispatch(logout());

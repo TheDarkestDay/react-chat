@@ -54,9 +54,17 @@ class ChatWindow extends Component {
     ]
   };
 
+  componentWillReceiveProps({ activeChatId }) {
+    this.props.setActiveChat(activeChatId);
+  }
+
   handleChange = (event, checked) => {
     this.setState({ auth: checked });
   };
+
+  handleJoinChannel = () => {
+    this.props.joinChat(this.props.activeChatId);
+  }
 
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -72,10 +80,9 @@ class ChatWindow extends Component {
 
   render() {
     const { anchorEl, messages } = this.state;
-    const { classes, currentChatId } = this.props;
+    const { activeChatId, classes, isMember } = this.props;
     const isOpened = Boolean(anchorEl);
-
-
+  
     return (
       <div className={classes.chatWindowWrapper}>
         <AppBar position="static">
@@ -114,11 +121,11 @@ class ChatWindow extends Component {
         </AppBar>
         <main className={classes.main}>
           {
-            currentChatId 
+            activeChatId 
               ? <MessagesList messages={messages}/>
               : <ChatWelcome />
           }
-          { currentChatId && <NewMessageForm /> }
+          { activeChatId && <NewMessageForm isMember={isMember} joinChat={this.handleJoinChannel} /> }
         </main>
       </div>
     );

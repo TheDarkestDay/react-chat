@@ -1,6 +1,7 @@
 import * as ActionType from '../constants/action-types';
 
 const initialState = {
+  activeChat: null,
   chats: [],
   errorMessage: null,
   isErrorMessageShown: false,
@@ -11,6 +12,16 @@ export default function chat(state = initialState, action) {
   const { type, payload } = action;
 
   switch(type) {
+    case ActionType.SET_ACTIVE_CHAT:
+      return {
+        ...state,
+        activeChat: state.chats.find((chat) => chat._id === payload)
+      }
+    case ActionType.JOIN_CHAT_SUCCESS:
+      return {
+        ...state,
+        activeChat: payload
+      }
     case ActionType.CREATE_CHAT_REQUEST:
       return {
         ...state,

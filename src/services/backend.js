@@ -68,6 +68,9 @@ const backend = {
   },
   createChat(chatTitle) {
     return createPostRequest(REST_API.CHATS.BASE, chatTitle, 'chat');
+  },
+  joinChat(chatId) {
+    return createGetRequest(REST_API.CHATS.JOIN(chatId), 'chat');
   }
 };
 
