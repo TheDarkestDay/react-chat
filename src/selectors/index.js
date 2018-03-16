@@ -53,6 +53,10 @@ export const getVisibleChats = createSelector(
             return chats.filter((chat) => chat.title.indexOf(chatQuery) > -1);
         }
 
-        return isAllChatsAreDisplayed ? chats : currentUser.chats
+        if (!isAllChatsAreDisplayed) {
+            return chats.filter((chat) => _isMember(currentUser, chat) || _isCreator(currentUser, chat));
+        }
+
+        return chats;
     }
 )

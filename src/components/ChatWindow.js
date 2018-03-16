@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
+import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
@@ -8,6 +9,7 @@ import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
 import ChatWelcome from './ChatWelcome';
+import ChatMenu from './ChatMenu';
 import MessagesList from './MessagesList';
 import NewMessageForm from './NewMessageForm';
 
@@ -15,10 +17,17 @@ const styles = (theme) => ({
   chatHeader: {
     justifyContent: 'space-between'
   },
+  chatTitle: {
+    marginLeft: '16px'
+  },
   chatWindowWrapper: {
     display: 'flex',
     flexDirection: 'column',
     height: '100%'
+  },
+  flexRow: {
+    display: 'flex',
+    alignItems: 'center'
   },
   main: {
     flexGrow: 1,
@@ -71,7 +80,7 @@ class ChatWindow extends Component {
     this.props.joinChat(this.props.activeChatId);
   }
 
-  handleMenu = event => {
+  handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -85,16 +94,33 @@ class ChatWindow extends Component {
 
   render() {
     const { anchorEl, messages } = this.state;
-    const { activeChatId, classes, isAllowedToSendMessages } = this.props;
+    const { activeChat, activeChatId, classes, isAllowedToSendMessages, isCreator } = this.props;
     const isOpened = Boolean(anchorEl);
-  
+
     return (
       <div className={classes.chatWindowWrapper}>
         <AppBar position="static">
           <Toolbar className={classes.chatHeader}>
-            <Typography variant="title" color="inherit">
-              DogeCodes React Chat
-            </Typography>
+            {activeChat
+              ?
+                (
+                  <div className={classes.flexRow}>
+                    <Avatar>
+                      {activeChat.title[0]}
+                    </Avatar>
+                    <Typography className={classes.chatTitle} variant="title" color="inherit">
+                      {activeChat.title}
+                    </Typography>
+                    {isAllowedToSendMessages && <ChatMenu isCreator={isCreator} />}
+                  </div>
+                )
+              :
+                (
+                  <Typography variant="title" color="inherit">
+                    DogeCodes React Chat
+                  </Typography>
+                )
+            }
             <div>
               <IconButton
                 aria-owns="menu-appbar"
@@ -126,11 +152,11 @@ class ChatWindow extends Component {
         </AppBar>
         <main className={classes.main}>
           {
-            activeChatId 
-              ? <MessagesList messages={messages}/>
+            activeChatId
+              ? <MessagesList messages={messages} />
               : <ChatWelcome />
           }
-          { activeChatId && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChannel} /> }
+          {activeChatId && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChannel} />}
         </main>
       </div>
     );

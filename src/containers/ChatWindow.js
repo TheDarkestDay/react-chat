@@ -2,12 +2,14 @@ import { connect } from 'react-redux';
 
 import { joinChat, quit, setActiveChat } from '../actions/chat';
 import { initSocketConnection } from '../actions/sockets';
-import { isAllowedToSendMessages } from '../selectors';
+import { isAllowedToSendMessages, isCreator } from '../selectors';
 import ChatWindow from '../components/ChatWindow';
 
 const mapStateToProps = (state) => {
   return {
-    isAllowedToSendMessages: isAllowedToSendMessages(state)
+    isAllowedToSendMessages: isAllowedToSendMessages(state),
+    isCreator: isCreator(state),
+    activeChat: state.chat.activeChat
   }
 }
  
