@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
 import { joinChat, quit, setActiveChat } from '../actions/chat';
-import { isMember } from '../selectors';
+import { isAllowedToSendMessages } from '../selectors';
 import ChatWindow from '../components/ChatWindow';
 
 const mapStateToProps = (state) => {
   return {
-    isMember: isMember(state)
+    isAllowedToSendMessages: isAllowedToSendMessages(state)
   }
 }
  

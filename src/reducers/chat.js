@@ -8,6 +8,15 @@ const initialState = {
   isRequestInProgress: false
 };
 
+const replaceChat = (chats, updatedChat) => {
+  const result = chats.slice();
+  const oldChatIdx = result.findIndex((chat) => chat._id === updatedChat._id);
+
+  result.splice(oldChatIdx, 1, updatedChat);
+  
+  return result;
+};
+
 export default function chat(state = initialState, action) {
   const { type, payload } = action;
 
@@ -20,7 +29,8 @@ export default function chat(state = initialState, action) {
     case ActionType.JOIN_CHAT_SUCCESS:
       return {
         ...state,
-        activeChat: payload
+        activeChat: payload,
+        chats: replaceChat(state.chats, payload)
       }
     case ActionType.CREATE_CHAT_REQUEST:
       return {

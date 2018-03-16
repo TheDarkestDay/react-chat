@@ -31,7 +31,6 @@ const styles = (theme) => ({
 class ChatWindow extends Component {
   state = {
     anchorEl: null,
-    isJoined: true,
     messages: [
       {
         id: 1,
@@ -54,8 +53,10 @@ class ChatWindow extends Component {
     ]
   };
 
-  componentWillReceiveProps({ activeChatId }) {
-    this.props.setActiveChat(activeChatId);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeChatId !== this.props.activeChatId) {
+      this.props.setActiveChat(nextProps.activeChatId);
+    }
   }
 
   handleChange = (event, checked) => {
@@ -80,7 +81,7 @@ class ChatWindow extends Component {
 
   render() {
     const { anchorEl, messages } = this.state;
-    const { activeChatId, classes, isMember } = this.props;
+    const { activeChatId, classes, isAllowedToSendMessages } = this.props;
     const isOpened = Boolean(anchorEl);
   
     return (
@@ -125,7 +126,7 @@ class ChatWindow extends Component {
               ? <MessagesList messages={messages}/>
               : <ChatWelcome />
           }
-          { activeChatId && <NewMessageForm isMember={isMember} joinChat={this.handleJoinChannel} /> }
+          { activeChatId && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChannel} /> }
         </main>
       </div>
     );
