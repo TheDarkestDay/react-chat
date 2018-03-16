@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 
-import { createChat, getChats } from '../actions/chat';
+import { createChat, getChats, showAllChats, showMyChats } from '../actions/chat';
+import { getVisibleChats } from '../selectors';
 import Sidebar from '../components/Sidebar';
 
 const mapStateToProps = (state) => {
   return {
-    chats: state.chat.chats
+    chats: getVisibleChats(state)
   }
 };
 
@@ -16,6 +17,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     getChats: () => {
       dispatch(getChats());
+    },
+    showAllChats: () => {
+      dispatch(showAllChats());
+    },
+    showMyChats: () => {
+      dispatch(showMyChats());
     }
   }
 }

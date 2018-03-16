@@ -43,10 +43,15 @@ const styles = (theme) => ({
   }
 });
 
+const CHATS_SELECTION = {
+  MY: 0,
+  ALL: 1
+};
+
 class Sidebar extends Component {
   state = {
     chatQuery: '',
-    currentTabIndex: 0,
+    currentSelectionIndex: 0,
     isDialogOpened: false
   };
 
@@ -65,10 +70,16 @@ class Sidebar extends Component {
     this.props.createChat(chatTitle);
   }
 
-  handleTabChange = (event, value) => {
+  toggleChatsSelection = (event, value) => {
     this.setState({
-      currentTabIndex: value
+      currentSelectionIndex: value
     });
+
+    if (value === CHATS_SELECTION.MY) {
+      this.props.showMyChats();
+    } else {
+      this.props.showAllChats();
+    }
   };
 
   openCreateChannelDialog = () => {
@@ -79,7 +90,7 @@ class Sidebar extends Component {
 
   render() {
     const { classes, chats } = this.props;
-    const { currentTabIndex, isDialogOpened } = this.state;
+    const { currentSelectionIndex, isDialogOpened } = this.state;
 
     return (
       <aside className={classes.sidebar}>
@@ -111,8 +122,8 @@ class Sidebar extends Component {
           <AddIcon />
         </Button>
         <BottomNavigation
-          value={currentTabIndex}
-          onChange={this.handleTabChange}
+          value={currentSelectionIndex}
+          onChange={this.toggleChatsSelection}
           showLabels>
           <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />

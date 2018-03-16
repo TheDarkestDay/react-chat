@@ -4,6 +4,7 @@ const initialState = {
   activeChat: null,
   chats: [],
   errorMessage: null,
+  isAllChatsAreDisplayed: false,
   isErrorMessageShown: false,
   isRequestInProgress: false
 };
@@ -26,6 +27,16 @@ export default function chat(state = initialState, action) {
         ...state,
         activeChat: state.chats.find((chat) => chat._id === payload)
       }
+    case ActionType.SHOW_ALL_CHATS:
+      return {
+        ...state,
+        isAllChatsAreDisplayed: true
+      }
+    case ActionType.SHOW_MY_CHATS:
+      return {
+        ...state,
+        isAllChatsAreDisplayed: false
+      }
     case ActionType.JOIN_CHAT_SUCCESS:
       return {
         ...state,
@@ -36,12 +47,6 @@ export default function chat(state = initialState, action) {
       return {
         ...state,
         isRequestInProgress: true
-      }
-    case ActionType.CREATE_CHAT_SUCCESS:
-      return {
-        ...state,
-        isRequestInProgress: false,
-        chats: state.chats.concat(payload)
       }
     case ActionType.GET_CHATS_SUCCESS:
       return {
@@ -60,6 +65,11 @@ export default function chat(state = initialState, action) {
       return {
         ...state,
         isErrorMessageShown: false
+      }
+    case ActionType.NEW_CHAT_EVENT:
+      return {
+        ...state,
+        chats: state.chats.concat(payload)
       }
     default:
       return state;

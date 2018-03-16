@@ -1,5 +1,5 @@
 
-const API_ROOT = 'http://localhost:8080/v1';
+import { API_ROOT } from './config';
 
 const REST_API = {
   AUTH: {

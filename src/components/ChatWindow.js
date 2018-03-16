@@ -53,6 +53,10 @@ class ChatWindow extends Component {
     ]
   };
 
+  componentDidMount() {
+    this.props.initSocketConnection();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeChatId !== this.props.activeChatId) {
       this.props.setActiveChat(nextProps.activeChatId);

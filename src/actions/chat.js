@@ -103,6 +103,18 @@ export function setActiveChat(chatId) {
   }
 }
 
+export function showAllChats() {
+  return {
+    type: ActionType.SHOW_ALL_CHATS
+  }
+}
+
+export function showMyChats() {
+  return {
+    type: ActionType.SHOW_MY_CHATS
+  }
+}
+
 export function quit() {
   return (dispatch) => {
     dispatch(logout());
