@@ -50,13 +50,16 @@ const CHATS_SELECTION = {
 
 class Sidebar extends Component {
   state = {
-    chatQuery: '',
     currentSelectionIndex: 0,
     isDialogOpened: false
   };
 
   componentDidMount() {
     this.props.getChats();
+  }
+
+  handleChatQueryChange = (event) => {
+    this.props.searchChats(event.target.value);
   }
 
   handleDialogClose = () => {
@@ -89,7 +92,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { classes, chats } = this.props;
+    const { classes, chats, chatQuery } = this.props;
     const { currentSelectionIndex, isDialogOpened } = this.state;
 
     return (
@@ -99,7 +102,8 @@ class Sidebar extends Component {
             <Input
               id="chatSearch"
               placeholder="Search chats..."
-              value={this.state.chatQuery}
+              value={chatQuery}
+              onChange={this.handleChatQueryChange}
               fullWidth />
           </form>
         </Paper>

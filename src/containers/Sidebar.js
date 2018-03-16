@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 
-import { createChat, getChats, showAllChats, showMyChats } from '../actions/chat';
+import { createChat, chatQueryChange, getChats, showAllChats, showMyChats } from '../actions/chat';
 import { getVisibleChats } from '../selectors';
 import Sidebar from '../components/Sidebar';
 
 const mapStateToProps = (state) => {
   return {
-    chats: getVisibleChats(state)
+    chats: getVisibleChats(state),
+    chatQuery: state.chat.chatQuery
   }
 };
 
@@ -23,6 +24,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     showMyChats: () => {
       dispatch(showMyChats());
+    },
+    searchChats: (query) => {
+      dispatch(chatQueryChange(query));
     }
   }
 }

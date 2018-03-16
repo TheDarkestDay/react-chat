@@ -3,6 +3,7 @@ import * as ActionType from '../constants/action-types';
 const initialState = {
   activeChat: null,
   chats: [],
+  chatQuery: '',
   errorMessage: null,
   isAllChatsAreDisplayed: false,
   isErrorMessageShown: false,
@@ -30,12 +31,19 @@ export default function chat(state = initialState, action) {
     case ActionType.SHOW_ALL_CHATS:
       return {
         ...state,
+        chatQuery: '',
         isAllChatsAreDisplayed: true
       }
     case ActionType.SHOW_MY_CHATS:
       return {
         ...state,
+        chatQuery: '',
         isAllChatsAreDisplayed: false
+      }
+    case ActionType.CHAT_QUERY_CHANGE:
+      return {
+        ...state,
+        chatQuery: payload
       }
     case ActionType.JOIN_CHAT_SUCCESS:
       return {

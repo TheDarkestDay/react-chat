@@ -115,6 +115,13 @@ export function showMyChats() {
   }
 }
 
+export function chatQueryChange(query) {
+  return {
+    type: ActionType.CHAT_QUERY_CHANGE,
+    payload: query
+  }
+}
+
 export function quit() {
   return (dispatch) => {
     dispatch(logout());
