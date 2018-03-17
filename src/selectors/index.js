@@ -1,13 +1,20 @@
 import { createSelector } from 'reselect';
 
 const getUser = (state) => state.auth.user;
-const getActiveChat = (state) => state.chat.activeChat;
+const getActiveChatId = (state) => state.chat.activeChatId;
 const getChats = (state) => state.chat.chats;
 const getChatQuery = (state) => state.chat.chatQuery;
 const isAllChatsAreDisplayed = (state) => state.chat.isAllChatsAreDisplayed;
 
 const _isMember = (currentUser, activeChat) => activeChat.members.find((user) => user._id === currentUser._id);
 const _isCreator = (currentUser, activeChat) => activeChat.creator._id === currentUser._id;
+
+export const getActiveChat = createSelector(
+    [getChats, getActiveChatId],
+    (chats, activeChatId) => {
+        return chats.find((chat) => chat._id === activeChatId);
+    }
+)
 
 export const isMember = createSelector(
     [getUser, getActiveChat],

@@ -6,7 +6,11 @@ import * as ActionType from '../constants/action-types';
 let socket = null;
 
 export function initSocketConnection() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        if (getState().chat.isSocketConnected) {
+            return;
+        }
+
         dispatch(socketConnectionRequest());
 
         socket = io(WS_ROOT, {
@@ -16,19 +20,23 @@ export function initSocketConnection() {
         });
     
         socket.on('connect', () => {
-            console.log('Connected successfully');
-        });
-    
-        socket.on('new-chat', ({ chat }) => {
-            dispatch(newChatEvent(chat));
+            dispatch(socketConnectionSuccess());
         });
     
         socket.on('error', (error) => {
-            console.log(error);
+            dispatch(socketConnectionError());
         });
     
         socket.on('disconnect', (error) => {
-            console.log('Disconnnected', error);
+            dispatch(socketConnectionDisconnect());
+        });
+
+        socket.on('new-chat', ({ chat }) => {
+            dispatch(newChatEvent(chat));
+        });
+
+        socket.on('deleted-chat', ({ chat }) => {
+            dispatch(deletedChatEvent(chat));
         });
     }
 }
@@ -39,9 +47,34 @@ export function socketConnectionRequest() {
     }
 }
 
+export function socketConnectionSuccess() {
+    return {
+        type: ActionType.SOCKET_CONNECTION_SUCCESS
+    }
+}
+
+export function socketConnectionError() {
+    return {
+        type: ActionType.SOCKET_CONNECTION_ERROR
+    }
+}
+
+export function socketConnectionDisconnect() {
+    return {
+        type: ActionType.SOCKET_CONNECTION_DISCONNECT
+    }
+}
+
 export function newChatEvent(chat) {
     return {
         type: ActionType.NEW_CHAT_EVENT,
+        payload: chat
+    }
+}
+
+export function deletedChatEvent(chat) {
+    return {
+        type: ActionType.DELETED_CHAT_EVENT,
         payload: chat
     }
 }

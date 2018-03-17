@@ -2,7 +2,11 @@ import * as ActionType from '../constants/action-types';
 import backend from '../services/backend';
 
 export function login(credentials) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().auth.isRequestInProgress) {
+      return;
+    }
+
     dispatch(loginRequest());
 
     backend
@@ -35,7 +39,11 @@ export function loginError(errorMessage) {
 }
 
 export function signup(credentials) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().auth.isRequestInProgress) {
+      return;
+    }
+
     dispatch(signupRequest());
 
     backend
@@ -68,7 +76,11 @@ export function signupError(errorMessage) {
 }
 
 export function getWhoami() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching.getWhoami) {
+      return;
+    }
+    
     backend
       .getWhoami()
       .then((user) => dispatch(whoamiSuccess(user)))

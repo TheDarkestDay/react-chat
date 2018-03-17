@@ -19,14 +19,6 @@ class ChatMenu extends Component {
         });
     }
 
-    handleDeleteChatClick = () => {
-
-    }
-
-    handleLeaveChatClick = () => {
-
-    }
-
     handleMenu = (evt) => {
         this.setState({
             anchorEl: evt.currentTarget
@@ -35,7 +27,7 @@ class ChatMenu extends Component {
 
     render() {
         const { anchorEl } = this.state;
-        const { isCreator } = this.props;
+        const { isCreator, onChatDelete, onChatLeave } = this.props;
         const isOpened = Boolean(anchorEl);
 
         return (
@@ -64,8 +56,8 @@ class ChatMenu extends Component {
                 >
                     {
                         isCreator 
-                            ? (<MenuItem onClick={this.handleDeleteChatClick}>Delete chat</MenuItem>)
-                            : (<MenuItem onClick={this.handleLeaveChatClick}>Leave chat</MenuItem>)
+                            ? (<MenuItem onClick={onChatDelete}>Delete chat</MenuItem>)
+                            : (<MenuItem onClick={onChatLeave}>Leave chat</MenuItem>)
                     }
                 </Menu>
             </div>

@@ -12,17 +12,17 @@ const styles = () => ({
 
 class NewMessageForm extends Component {
   render() {
-    const { classes, isAllowedToSendMessages, joinChat } = this.props;
+    const { classes, disabled, isAllowedToSendMessages, joinChat } = this.props;
 
     return (
       <Paper className={classes.newMessageFieldWrapper}>
         {isAllowedToSendMessages 
           ?
             <form>
-              <Input placeholder="Type your message..." fullWidth />
+              <Input placeholder="Type your message..." fullWidth  disabled={disabled} />
             </form>
           : 
-            <Button onClick={joinChat} variant="raised" color="primary" fullWidth> Join </Button>  
+            <Button onClick={joinChat} variant="raised" color="primary" fullWidth disabled={disabled}> Join </Button>  
         }
       </Paper>
     );

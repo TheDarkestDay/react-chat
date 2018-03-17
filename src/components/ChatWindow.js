@@ -76,8 +76,16 @@ class ChatWindow extends Component {
     this.setState({ auth: checked });
   };
 
-  handleJoinChannel = () => {
-    this.props.joinChat(this.props.activeChatId);
+  handleChatDelete = () => {
+    this.props.deleteChat(this.props.activeChat._id);
+  }
+
+  handleJoinChat = () => {
+    this.props.joinChat(this.props.activeChat._id);
+  }
+
+  handleChatLeave = () => {
+    this.props.leaveChat(this.props.activeChat._id);
   }
 
   handleMenu = (event) => {
@@ -94,7 +102,7 @@ class ChatWindow extends Component {
 
   render() {
     const { anchorEl, messages } = this.state;
-    const { activeChat, activeChatId, classes, isAllowedToSendMessages, isCreator } = this.props;
+    const { activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected } = this.props;
     const isOpened = Boolean(anchorEl);
 
     return (
@@ -111,7 +119,7 @@ class ChatWindow extends Component {
                     <Typography className={classes.chatTitle} variant="title" color="inherit">
                       {activeChat.title}
                     </Typography>
-                    {isAllowedToSendMessages && <ChatMenu isCreator={isCreator} />}
+                    {isAllowedToSendMessages && <ChatMenu isCreator={isCreator} onChatDelete={this.handleChatDelete} onChatLeave={this.handleChatLeave}/>}
                   </div>
                 )
               :
@@ -152,11 +160,11 @@ class ChatWindow extends Component {
         </AppBar>
         <main className={classes.main}>
           {
-            activeChatId
+            activeChat
               ? <MessagesList messages={messages} />
               : <ChatWelcome />
           }
-          {activeChatId && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChannel} />}
+          {activeChat && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChat} disabled={!isSocketConnected}/>}
         </main>
       </div>
     );

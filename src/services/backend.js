@@ -8,8 +8,8 @@ function createGetRequest(url, dataPath) {
       'Authorization': `Bearer ${token}`
     }
   })
-  .then((response) => response.json())
-  .then((responseBody) => processResponse(responseBody, dataPath));
+    .then((response) => response.json())
+    .then((responseBody) => processResponse(responseBody, dataPath));
 }
 
 function createPostRequest(url, requestBody, dataPath) {
@@ -23,8 +23,8 @@ function createPostRequest(url, requestBody, dataPath) {
       'content-type': 'application/json'
     }
   })
-  .then((response) => response.json())
-  .then((responseBody) => processResponse(responseBody, dataPath))
+    .then((response) => response.json())
+    .then((responseBody) => processResponse(responseBody, dataPath))
 }
 
 function processResponse(responseBody, dataPath) {
@@ -46,8 +46,8 @@ const backend = {
         'content-type': 'application/json'
       }
     })
-    .then((response) => response.json())
-    .then((responseBody) => processResponse(responseBody, 'token'));
+      .then((response) => response.json())
+      .then((responseBody) => processResponse(responseBody, 'token'));
   },
   signup(credentials) {
     return fetch(REST_API.AUTH.SIGNUP, {
@@ -57,8 +57,8 @@ const backend = {
         'content-type': 'application/json'
       }
     })
-    .then((response) => response.json())
-    .then((responseBody) => processResponse(credentials, 'token'));
+      .then((response) => response.json())
+      .then((responseBody) => processResponse(responseBody, 'token'));
   },
   getWhoami() {
     return createGetRequest(REST_API.USERS.WHOAMI, 'user');
@@ -71,6 +71,21 @@ const backend = {
   },
   joinChat(chatId) {
     return createGetRequest(REST_API.CHATS.JOIN(chatId), 'chat');
+  },
+  deleteChat(chatId) {
+    const token = localStorage.getItem('token');
+
+    return fetch(`${REST_API.CHATS.BASE}/${chatId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then((response) => response.json())
+    .then((responseBody) => processResponse(responseBody, 'chat'));
+  },
+  leaveChat(chatId) {
+    return createGetRequest(REST_API.CHATS.LEAVE(chatId), 'chat');
   }
 };
 

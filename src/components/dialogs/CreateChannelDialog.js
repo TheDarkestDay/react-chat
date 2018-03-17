@@ -23,7 +23,7 @@ export default class CreateChannelDialog extends Component {
   }
 
   render() {
-    const { isOpened, onClose } = this.props;
+    const { disabled, isOpened, onClose } = this.props;
 
     return (
       <Dialog
@@ -47,7 +47,7 @@ export default class CreateChannelDialog extends Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleDone} color="primary">
+          <Button onClick={this.handleDone} color="primary" disabled={disabled}>
             Create
           </Button>
         </DialogActions>

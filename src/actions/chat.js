@@ -4,7 +4,11 @@ import history from '../utils/history';
 import backend from '../services/backend';
 
 export function createChat(chatTitle) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching.createChat) {
+      return;
+    }
+
     dispatch(createChatRequest());
 
     backend
@@ -35,7 +39,11 @@ export function createChatError(error) {
 }
 
 export function getChats() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching.getChats) {
+      return;
+    }
+
     dispatch(getChatsRequest());
 
     backend
@@ -66,7 +74,11 @@ export function getChatsError(error) {
 }
 
 export function joinChat(chatId) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching.joinChat) {
+      return;
+    }
+    
     dispatch(joinChatRequest());
 
     backend
@@ -93,6 +105,78 @@ export function joinChatError(error) {
   return {
     type: ActionType.JOIN_CHAT_ERROR,
     payload: error
+  }
+}
+
+export function leaveChat(chatId) {
+  return (dispatch, getState) => {
+    if (getState().isFetching.leaveChat) {
+      return;
+    }
+
+    dispatch(leaveChatRequest());
+
+    backend
+      .leaveChat(chatId)
+      .then((responseData) => dispatch(leaveChatSuccess(responseData)))
+      .catch((error) => dispatch(leaveChatError(error)));
+  }
+}
+
+export function leaveChatRequest() {
+  return {
+    type: ActionType.LEAVE_CHAT_REQUEST
+  }
+}
+
+export function leaveChatSuccess(updatedChat) {
+  return {
+    type: ActionType.LEAVE_CHAT_SUCCESS,
+    payload: updatedChat
+  }
+}
+
+export function leaveChatError(error) {
+  return {
+    type: ActionType.LEAVE_CHAT_ERROR,
+    payload: error
+  }
+}
+
+export function deleteChat(chatId) {
+  return (dispatch, getState) => {
+    if (getState().isFetching.deleteChat) {
+      return;
+    }
+
+    dispatch(deleteChatRequest());
+
+    backend
+      .deleteChat(chatId)
+      .then((responseData) => {
+        dispatch(deleteChatSuccess(responseData));
+        history.push('/chat');
+      })
+      .catch((error) => dispatch(deleteChatError(error)));
+  };
+}
+
+export function deleteChatRequest() {
+  return {
+    type: ActionType.DELETE_CHAT_REQUEST
+  }
+}
+
+export function deleteChatSuccess(removedChat) {
+  return {
+    type: ActionType.DELETE_CHAT_SUCCESS,
+    payload: removedChat
+  }
+}
+
+export function deleteChatError() {
+  return {
+    type: ActionType.DELETE_CHAT_ERROR
   }
 }
 

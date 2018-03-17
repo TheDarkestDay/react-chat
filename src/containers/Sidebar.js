@@ -7,7 +7,8 @@ import Sidebar from '../components/Sidebar';
 const mapStateToProps = (state) => {
   return {
     chats: getVisibleChats(state),
-    chatQuery: state.chat.chatQuery
+    chatQuery: state.chat.chatQuery,
+    isSocketConnected: state.chat.isSocketConnected
   }
 };
 

@@ -56,6 +56,7 @@ class Sidebar extends Component {
 
   componentDidMount() {
     this.props.getChats();
+    this.props.showMyChats();
   }
 
   handleChatQueryChange = (event) => {
@@ -92,7 +93,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { classes, chats, chatQuery } = this.props;
+    const { classes, chats, chatQuery, isSocketConnected } = this.props;
     const { currentSelectionIndex, isDialogOpened } = this.state;
 
     return (
@@ -122,7 +123,7 @@ class Sidebar extends Component {
             );
           })}
         </List>
-        <Button className={classes.addChatBtn} onClick={this.openCreateChannelDialog} variant="fab" color="primary" aria-label="add">
+        <Button className={classes.addChatBtn} onClick={this.openCreateChannelDialog} variant="fab" color="primary" aria-label="add" disabled={!isSocketConnected}>
           <AddIcon />
         </Button>
         <BottomNavigation
@@ -132,7 +133,7 @@ class Sidebar extends Component {
           <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
         </BottomNavigation>
-        <CreateChannelDialog isOpened={isDialogOpened} onClose={this.handleDialogClose} onDone={this.handleDialogDone}/>
+        <CreateChannelDialog isOpened={isDialogOpened} onClose={this.handleDialogClose} onDone={this.handleDialogDone} disabled={!isSocketConnected} />
       </aside>
     );
   }
