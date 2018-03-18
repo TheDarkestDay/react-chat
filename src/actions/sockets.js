@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 
 import { WS_ROOT } from '../constants/config';
 import * as ActionType from '../constants/action-types';
+import history from '../utils/history';
 
 let socket = null;
 
@@ -18,15 +19,15 @@ export function initSocketConnection() {
                 token: localStorage.getItem('token')
             }
         });
-    
+
         socket.on('connect', () => {
             dispatch(socketConnectionSuccess());
         });
-    
+
         socket.on('error', (error) => {
             dispatch(socketConnectionError());
         });
-    
+
         socket.on('disconnect', (error) => {
             dispatch(socketConnectionDisconnect());
         });
@@ -36,7 +37,15 @@ export function initSocketConnection() {
         });
 
         socket.on('deleted-chat', ({ chat }) => {
+            if (getState().chat.activeChatId === chat._id) {
+                history.push('/chat');
+            }
+
             dispatch(deletedChatEvent(chat));
+        });
+
+        socket.on('new-message', (message) => {
+            dispatch(newMessageEvent(message));
         });
     }
 }
@@ -76,5 +85,72 @@ export function deletedChatEvent(chat) {
     return {
         type: ActionType.DELETED_CHAT_EVENT,
         payload: chat
+    }
+}
+
+export function newMessageEvent({ message }) {
+    return {
+        type: ActionType.NEW_MESSAGE_EVENT,
+        payload: message
+    }
+}
+
+export function sendMessage(chatId, content) {
+    return (dispatch, getState) => {
+        if (!getState().chat.isSocketConnected) {
+            return;
+        }
+
+        dispatch(sendMessageEvent(chatId, content));
+
+        socket.emit('send-message', {
+            chatId,
+            content
+        });
+    }
+}
+
+export function sendMessageEvent(chatId, content) {
+    return {
+        type: ActionType.SEND_MESSAGE_EVENT,
+        payload: { chatId, content }
+    }
+}
+
+export function mountChat(chatId) {
+    return (dispatch, getState) => {
+        if (!getState().chat.isSocketConnected) {
+            return;
+        } 
+
+        dispatch(mountChatEvent(chatId));
+
+        socket.emit('mount-chat', chatId);
+    }
+}
+
+export function mountChatEvent(chatId) {
+    return {
+        type: ActionType.MOUNT_CHAT_EVENT,
+        payload: chatId
+    }
+}
+
+export function unmountChat(chatId) {
+    return (dispatch, getState) => {
+        if (!getState().chat.isSocketConnected) {
+            return;
+        }
+
+        dispatch(unmountChatEvent(chatId));
+
+        socket.emit('unmount-chat', chatId);
+    }
+}
+
+export function unmountChatEvent(chatId) {
+    return {
+        type: ActionType.UNMOUNT_CHAT_EVENT,
+        payload: chatId
     }
 }

@@ -7,7 +7,8 @@ const initialState = {
   errorMessage: null,
   isAllChatsAreDisplayed: false,
   isErrorMessageShown: false,
-  isSocketConnected: false
+  isSocketConnected: false,
+  messages: []
 };
 
 const replaceChat = (chats, updatedChat) => {
@@ -63,14 +64,15 @@ export default function chat(state = initialState, action) {
         ...state,
         chats: replaceChat(state.chats, payload)
       }
-    case ActionType.CREATE_CHAT_REQUEST:
-      return {
-        ...state
-      }
     case ActionType.GET_CHATS_SUCCESS:
       return {
         ...state,
         chats: payload
+      }
+    case ActionType.GET_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        messages: payload
       }
     case ActionType.CREATE_CHAT_ERROR:
       return {
@@ -81,6 +83,7 @@ export default function chat(state = initialState, action) {
     case ActionType.DELETE_CHAT_SUCCESS:
       return {
         ...state,
+        activeChatId: '',
         chats: removeChat(state.chats, payload)
       }
     case ActionType.LEAVE_CHAT_SUCCESS:
@@ -113,6 +116,11 @@ export default function chat(state = initialState, action) {
       return {
         ...state,
         chats: removeChat(state.chats, payload)
+      }
+    case ActionType.NEW_MESSAGE_EVENT:
+      return {
+        ...state,
+        messages: state.messages.concat(payload)
       }
     default:
       return state;

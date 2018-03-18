@@ -7,7 +7,8 @@ const initialState = {
     joinChat: false,
     leaveChat: false,
     deleteChat: false,
-    editUser: false
+    editUser: false,
+    getMessages: false
 };
 
 export default function isFetching(state = initialState, action) {
@@ -90,6 +91,17 @@ export default function isFetching(state = initialState, action) {
             return {
                 ...state,
                 editUser: false
+            }
+        case ActionType.GET_MESSAGES_REQUEST:
+            return {
+                ...state,
+                getMessages: true
+            }
+        case ActionType.GET_MESSAGES_SUCCESS:
+        case ActionType.GET_MESSAGES_ERROR:
+            return {
+                ...state,
+                getMessages: false
             }
         default:
             return state;

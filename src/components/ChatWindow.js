@@ -39,27 +39,7 @@ const styles = (theme) => ({
 
 class ChatWindow extends Component {
   state = {
-    anchorEl: null,
-    messages: [
-      {
-        id: 1,
-        username: 'Alexander Brenchev',
-        content: 'A sample text',
-        createdAt: '21-Jan-1975'
-      },
-      {
-        id: 2,
-        username: 'Alexander Brenchev',
-        content: 'A sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample text',
-        createdAt: '21-Jan-1975'
-      },
-      {
-        id: 3,
-        username: 'Alexander Brenchev',
-        content: 'A sample text',
-        createdAt: '21-Jan-1975'
-      }
-    ]
+    anchorEl: null
   };
 
   componentDidMount() {
@@ -69,6 +49,12 @@ class ChatWindow extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeChatId !== this.props.activeChatId) {
       this.props.setActiveChat(nextProps.activeChatId);
+      this.props.mountChat(nextProps.activeChatId);
+      this.props.getMessages(nextProps.activeChatId);
+
+      if (this.props.activeChatId) {
+        this.props.unmountChat(this.props.activeChatId);
+      }
     }
   }
 
@@ -92,6 +78,12 @@ class ChatWindow extends Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
+  handleMessageSubmit = (content) => {
+    const { sendMessage, activeChat } = this.props;
+
+    sendMessage(activeChat._id, content);
+  }
+
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
@@ -101,8 +93,8 @@ class ChatWindow extends Component {
   }
 
   render() {
-    const { anchorEl, messages } = this.state;
-    const { activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected } = this.props;
+    const { anchorEl } = this.state;
+    const { activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected, messages, user } = this.props;
     const isOpened = Boolean(anchorEl);
 
     return (
@@ -161,10 +153,10 @@ class ChatWindow extends Component {
         <main className={classes.main}>
           {
             activeChat
-              ? <MessagesList messages={messages} />
+              ? <MessagesList messages={messages} user={user}/>
               : <ChatWelcome />
           }
-          {activeChat && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChat} disabled={!isSocketConnected}/>}
+          {activeChat && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChat} sendMessage={this.handleMessageSubmit} disabled={!isSocketConnected}/>}
         </main>
       </div>
     );

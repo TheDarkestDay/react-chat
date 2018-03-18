@@ -1,5 +1,6 @@
 import * as ActionType from '../constants/action-types';
 import { logout } from './auth';
+import { unmountChat } from './sockets';
 import history from '../utils/history';
 import backend from '../services/backend';
 
@@ -155,6 +156,7 @@ export function deleteChat(chatId) {
       .deleteChat(chatId)
       .then((responseData) => {
         dispatch(deleteChatSuccess(responseData));
+        dispatch(unmountChat(chatId));
         history.push('/chat');
       })
       .catch((error) => dispatch(deleteChatError(error)));
@@ -177,6 +179,41 @@ export function deleteChatSuccess(removedChat) {
 export function deleteChatError() {
   return {
     type: ActionType.DELETE_CHAT_ERROR
+  }
+}
+
+export function getMessages(chatId) {
+  return (dispatch, getState) => {
+    if (getState().isFetching.getMessages) {
+      return;
+    }
+
+    dispatch(getMessagesRequest());
+
+    backend
+      .getMessages(chatId)
+      .then((responseData) => dispatch(getMessagesSuccess(responseData)))
+      .catch((error) => dispatch(getMessagesError(error)));
+  }
+}
+
+export function getMessagesRequest() {
+  return {
+    type: ActionType.GET_MESSAGES_REQUEST
+  }
+}
+
+export function getMessagesSuccess(chat) {
+  return {
+    type: ActionType.GET_MESSAGES_SUCCESS,
+    payload: chat.messages
+  }
+}
+
+export function getMessagesError(error) {
+  return {
+    type: ActionType.GET_MESSAGES_ERROR,
+    payload: error
   }
 }
 
