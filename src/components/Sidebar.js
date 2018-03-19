@@ -9,6 +9,7 @@ import AddIcon from 'material-ui-icons/Add';
 import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavigation';
 import RestoreIcon from 'material-ui-icons/Restore';
 import ExploreIcon from 'material-ui-icons/Explore';
+import toMaterialStyle from 'material-color-hash';
 import { withStyles } from 'material-ui/styles';
 
 import generateLastActivityMessage from '../services/generate-last-activity-message';
@@ -113,7 +114,7 @@ class Sidebar extends Component {
             return (
               <Link className={classes.chatLink} to={`/chat/${chat._id}`} key={chat._id}>
                 <ListItem button>
-                  <Avatar>{chat.title[0]}</Avatar>
+                  <Avatar style={toMaterialStyle(chat.title)}>{chat.title[0]}</Avatar>
                   <ListItemText
                     primary={chat.title}
                     secondary={generateLastActivityMessage(chat.updatedAt)}>

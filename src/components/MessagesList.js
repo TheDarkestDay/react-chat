@@ -17,7 +17,7 @@ const styles = () => ({
 
 class MessagesList extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.messages) {
+    if (this.messagesList) {
       requestAnimationFrame(() => this.messagesList.scrollTo(0, this.messagesList.scrollHeight));
     }
   }

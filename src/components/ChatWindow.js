@@ -6,6 +6,7 @@ import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import toMaterialStyle from 'material-color-hash';
 import { withStyles } from 'material-ui/styles';
 
 import ChatWelcome from './ChatWelcome';
@@ -125,7 +126,7 @@ class ChatWindow extends Component {
               ?
                 (
                   <div className={classes.flexRow}>
-                    <Avatar>
+                    <Avatar style={toMaterialStyle(activeChat.title)}>
                       {activeChat.title[0]}
                     </Avatar>
                     <Typography className={classes.chatTitle} variant="title" color="inherit">

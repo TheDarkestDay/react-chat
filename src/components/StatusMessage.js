@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-
+import toMaterialStyle from 'material-color-hash';
+ 
 import generateLastActivityMessage from '../services/generate-last-activity-message';
 
 const styles = () => ({
@@ -22,7 +23,12 @@ class StatusMessage extends Component {
     return (
       <div className={classes.messageWrapper}>
         <Typography>
-          {`${sender.username} ${content}`}
+          <span style={{color: toMaterialStyle(sender.username).backgroundColor}}>
+            {sender.username} 
+          </span>
+          <span>
+            {content}
+          </span>
         </Typography>
         <Typography variant="caption">
           {generateLastActivityMessage(createdAt)}

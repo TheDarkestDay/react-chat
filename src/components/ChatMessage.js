@@ -3,6 +3,7 @@ import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
+import toMaterialStyle from 'material-color-hash';
 
 import generateLastActivityMessage from '../services/generate-last-activity-message';
 
@@ -39,14 +40,16 @@ const styles = (theme) => ({
 class ChatMessage extends Component {
   render() {
     const { classes, sender, content, createdAt, user } = this.props;
+    
+    const materialStyles = toMaterialStyle(sender.username);
 
     return (
       <div className={user._id === sender._id ? classes.myMessageWrapper : classes.messageWrapper}>
-        <Avatar className={user._id === sender._id ? classes.myMessageAvatar : classes.avatar}>
+        <Avatar className={user._id === sender._id ? classes.myMessageAvatar : classes.avatar} style={materialStyles}>
           {sender.username[0]}
         </Avatar>
         <Paper className={`${classes.message} ${user._id === sender._id ? classes.myMessage : ''}`}>
-          <Typography variant="caption">
+          <Typography variant="caption" style={{'color': materialStyles.backgroundColor}}>
             {sender.username}
           </Typography>
           <Typography>
