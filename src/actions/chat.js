@@ -176,9 +176,10 @@ export function deleteChatSuccess(removedChat) {
   }
 }
 
-export function deleteChatError() {
+export function deleteChatError(error) {
   return {
-    type: ActionType.DELETE_CHAT_ERROR
+    type: ActionType.DELETE_CHAT_ERROR,
+    payload: error
   }
 }
 
@@ -216,6 +217,41 @@ export function getMessagesError(error) {
     payload: error
   }
 }
+
+export function editUser(username, firstName, lastName) {
+  return (dispatch, getState) => {
+    if (getState().isFetching.editUser) {
+      return;
+    }
+
+    dispatch(editUserRequest());
+
+    backend
+      .editUser({ username, firstName, lastName })
+      .then((responseData) => dispatch(editUserSuccess(responseData)))
+      .catch((error) => dispatch(editUserError(error)));
+  };
+}
+
+export function editUserRequest() {
+  return {
+    type: ActionType.EDIT_USER_REQUEST
+  }
+}
+
+export function editUserSuccess(user) {
+  return {
+    type: ActionType.EDIT_USER_SUCCESS,
+    payload: user
+  }
+}
+
+export function editUserError(error) {
+  return {
+    type: ActionType.EDIT_USER_ERROR,
+    payload: error
+  }
+} 
 
 export function setActiveChat(chatId) {
   return {

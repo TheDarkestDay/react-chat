@@ -3,7 +3,7 @@ import backend from '../services/backend';
 
 export function login(credentials) {
   return (dispatch, getState) => {
-    if (getState().auth.isRequestInProgress) {
+    if (getState().isFetching.login) {
       return;
     }
 
@@ -40,7 +40,7 @@ export function loginError(errorMessage) {
 
 export function signup(credentials) {
   return (dispatch, getState) => {
-    if (getState().auth.isRequestInProgress) {
+    if (getState().isFetching.signup) {
       return;
     }
 

@@ -89,6 +89,9 @@ const backend = {
   },
   getMessages(chatId) {
     return createGetRequest(`${REST_API.CHATS.BASE}/${chatId}`, 'chat');
+  },
+  editUser(userInfo) {
+    return createPostRequest(REST_API.USERS.WHOAMI, userInfo, 'user');
   }
 };
 

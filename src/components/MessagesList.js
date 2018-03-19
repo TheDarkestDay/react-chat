@@ -16,11 +16,17 @@ const styles = () => ({
 });
 
 class MessagesList extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.messages) {
+      requestAnimationFrame(() => this.messagesList.scrollTo(0, this.messagesList.scrollHeight));
+    }
+  }
+
   render() {
     const { classes, messages, user } = this.props;
 
     return (
-      <section className={classes.messagesList}>
+      <section className={classes.messagesList} ref={(messagesList) => this.messagesList = messagesList}>
         {
           messages.map((message) => {
             return (

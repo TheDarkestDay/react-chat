@@ -55,7 +55,7 @@ class ChatMenu extends Component {
                     onClose={this.handleClose}
                 >
                     {
-                        isCreator 
+                        isCreator
                             ? (<MenuItem onClick={onChatDelete}>Delete chat</MenuItem>)
                             : (<MenuItem onClick={onChatLeave}>Leave chat</MenuItem>)
                     }

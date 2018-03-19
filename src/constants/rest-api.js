@@ -7,6 +7,7 @@ const REST_API = {
     SIGNUP: `${API_ROOT}/signup`
   },
   USERS: {
+    BASE: `${API_ROOT}/users`,
     WHOAMI: `${API_ROOT}/users/me`
   },
   CHATS: {

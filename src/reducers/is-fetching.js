@@ -1,6 +1,8 @@
 import * as ActionType from '../constants/action-types';
 
 const initialState = {
+    login: false,
+    signup: false,
     getWhoami: false,
     getChats: false,
     createChat: false,
@@ -15,6 +17,28 @@ export default function isFetching(state = initialState, action) {
     const { type } = action;
 
     switch(type) {
+        case ActionType.LOGIN_REQUEST:
+            return {
+                ...state,
+                login: true
+            }
+        case ActionType.LOGIN_SUCCESS:
+        case ActionType.LOGIN_ERROR:
+            return {
+                ...state,
+                login: false
+            }
+        case ActionType.SIGNUP_REQUEST:
+            return {
+                ...state,
+                signup: true
+            }
+        case ActionType.SIGNUP_SUCCESS:
+        case ActionType.SIGNUP_ERROR:
+            return {
+                ...state,
+                signup: false
+            }
         case ActionType.WHOAMI_REQUEST:
             return {
                 ...state,

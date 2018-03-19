@@ -10,6 +10,7 @@ import { withStyles } from 'material-ui/styles';
 
 import ChatWelcome from './ChatWelcome';
 import ChatMenu from './ChatMenu';
+import EditUserDialog from './dialogs/EditUserDialog';
 import MessagesList from './MessagesList';
 import NewMessageForm from './NewMessageForm';
 
@@ -39,7 +40,8 @@ const styles = (theme) => ({
 
 class ChatWindow extends Component {
   state = {
-    anchorEl: null
+    anchorEl: null,
+    isDialogOpened: false
   };
 
   componentDidMount() {
@@ -48,12 +50,14 @@ class ChatWindow extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeChatId !== this.props.activeChatId) {
-      this.props.setActiveChat(nextProps.activeChatId);
-      this.props.mountChat(nextProps.activeChatId);
-      this.props.getMessages(nextProps.activeChatId);
-
       if (this.props.activeChatId) {
         this.props.unmountChat(this.props.activeChatId);
+      }
+
+      if (nextProps.activeChatId) {
+        this.props.setActiveChat(nextProps.activeChatId);
+        this.props.getMessages(nextProps.activeChatId);
+        this.props.mountChat(nextProps.activeChatId);
       }
     }
   }
@@ -64,6 +68,22 @@ class ChatWindow extends Component {
 
   handleChatDelete = () => {
     this.props.deleteChat(this.props.activeChat._id);
+  }
+
+  handleDialogClose = () => {
+    this.setState({
+      isDialogOpened: false
+    });
+  }
+
+  handleDialogDone = (username, firstName, lastName) => {
+    this.props.editUser(username, firstName, lastName);
+  };
+
+  handleEditProfileClick = () => {
+    this.setState({
+      isDialogOpened: true
+    });
   }
 
   handleJoinChat = () => {
@@ -93,7 +113,7 @@ class ChatWindow extends Component {
   }
 
   render() {
-    const { anchorEl } = this.state;
+    const { anchorEl, isDialogOpened } = this.state;
     const { activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected, messages, user } = this.props;
     const isOpened = Boolean(anchorEl);
 
@@ -144,9 +164,10 @@ class ChatWindow extends Component {
                 open={isOpened}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>Edit profile</MenuItem>
+                <MenuItem onClick={this.handleEditProfileClick}>Edit profile</MenuItem>
                 <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
               </Menu>
+              <EditUserDialog userInfo={user} isOpened={isDialogOpened} onDone={this.handleDialogDone} onClose={this.handleDialogClose} disabled={!isSocketConnected} />
             </div>
           </Toolbar>
         </AppBar>

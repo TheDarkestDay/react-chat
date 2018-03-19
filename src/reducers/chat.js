@@ -4,9 +4,7 @@ const initialState = {
   activeChatId: '',
   chats: [],
   chatQuery: '',
-  errorMessage: null,
   isAllChatsAreDisplayed: false,
-  isErrorMessageShown: false,
   isSocketConnected: false,
   messages: []
 };
@@ -74,12 +72,6 @@ export default function chat(state = initialState, action) {
         ...state,
         messages: payload
       }
-    case ActionType.CREATE_CHAT_ERROR:
-      return {
-        ...state,
-        isErrorMessageShown: true,
-        errorMessage: payload
-      }
     case ActionType.DELETE_CHAT_SUCCESS:
       return {
         ...state,
@@ -90,11 +82,6 @@ export default function chat(state = initialState, action) {
       return {
         ...state,
         chats: replaceChat(state.chats, payload)
-      }
-    case ActionType.SNACKBAR_CLOSE:
-      return {
-        ...state,
-        isErrorMessageShown: false
       }
     case ActionType.SOCKET_CONNECTION_SUCCESS:
       return {

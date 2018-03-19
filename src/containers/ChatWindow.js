@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { deleteChat, getMessages, joinChat, leaveChat, quit, setActiveChat } from '../actions/chat';
+import { deleteChat, editUser, getMessages, joinChat, leaveChat, quit, setActiveChat } from '../actions/chat';
 import { initSocketConnection, mountChat, sendMessage, unmountChat } from '../actions/sockets';
 import { getActiveChat, isAllowedToSendMessages, isCreator } from '../selectors';
 import ChatWindow from '../components/ChatWindow';
@@ -16,10 +16,13 @@ const mapStateToProps = (state) => {
   }
 }
  
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, getState) => {
   return {
     deleteChat: (chatId) => {
       dispatch(deleteChat(chatId));
+    },
+    editUser: (username, firstName, lastName) => {
+      dispatch(editUser(username, firstName, lastName));
     },
     initSocketConnection: () => {
       dispatch(initSocketConnection());
