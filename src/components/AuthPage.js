@@ -4,7 +4,6 @@ import AppBar from 'material-ui/AppBar';
 import Card, { } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import { LinearProgress } from 'material-ui/Progress';
-import Snackbar from 'material-ui/Snackbar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -44,11 +43,9 @@ const TabIndex = {
 };
 
 class AuthPage extends Component {
-  propTypes ={
+  static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
-    errorMessage: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
-    isErrorMessageShown: PropTypes.bool.isRequired,
     isRequestInProgress: PropTypes.bool.isRequired,
   }
 
@@ -64,7 +61,7 @@ class AuthPage extends Component {
 
   render() {
     const {
-      classes, errorMessage, isAuthenticated, isErrorMessageShown, isRequestInProgress,
+      classes, isAuthenticated, isRequestInProgress,
     } = this.props;
     const { currentTabIndex } = this.state;
 
@@ -88,7 +85,12 @@ class AuthPage extends Component {
           <section className={classes.flexRow}>
             <Grid item>
               <Card className={classes.formWrapper}>
-                <Tabs className={classes.tabs} value={currentTabIndex} onChange={(evt, index) => this.handleTabChange(evt, index)} fullWidth>
+                <Tabs
+                  className={classes.tabs}
+                  value={currentTabIndex}
+                  onChange={(evt, index) => this.handleTabChange(evt, index)}
+                  fullWidth
+                >
                   <Tab label="Login" />
                   <Tab label="Sign up" />
                 </Tabs>
@@ -97,19 +99,6 @@ class AuthPage extends Component {
               </Card>
             </Grid>
           </section>
-          <Snackbar
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            open={isErrorMessageShown}
-            autoHideDuration={2000}
-            onClose={this.handleSnackbarClose}
-            SnackbarContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            message={<span id="message-id">{errorMessage}</span>}
-          />
         </main>
       </React.Fragment>
     );

@@ -20,7 +20,7 @@ const styles = () => ({
 });
 
 class LoginForm extends Component {
-  propTypes = {
+  static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     login: PropTypes.func.isRequired,
   }
@@ -54,7 +54,7 @@ class LoginForm extends Component {
             <Input
               id="username"
               className={classes.input}
-              onChange={evt => this.handleFieldChange(evt, 'username')}
+              onChange={evt => this.handleFieldChange('username', evt)}
               placeholder="Type your username"
             />
           </FormControl>
@@ -63,7 +63,7 @@ class LoginForm extends Component {
             <Input
               id="password"
               className={classes.input}
-              onChange={evt => this.handleFieldChange(evt, 'password')}
+              onChange={evt => this.handleFieldChange('password', evt)}
               type="password"
               placeholder="Type your password"
             />

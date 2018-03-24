@@ -4,6 +4,7 @@ import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import toMaterialStyle from 'material-color-hash';
 
+import { User } from '../constants/shapes';
 import generateLastActivityMessage from '../services/generate-last-activity-message';
 
 const styles = () => ({
@@ -43,9 +44,7 @@ StatusMessage.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  sender: PropTypes.shape({
-
-  }).isRequired,
-}
+  sender: User.isRequired,
+};
 
 export default withStyles(styles)(StatusMessage);

@@ -20,7 +20,7 @@ const styles = () => ({
 });
 
 class SignupForm extends Component {
-  propTypes = {
+  static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     signup: PropTypes.func.isRequired,
   }

@@ -9,7 +9,7 @@ import Dialog, {
 } from 'material-ui/Dialog';
 
 export default class EditUserDialog extends Component {
-    propTypes = {
+    static propTypes = {
       disabled: PropTypes.bool.isRequired,
       isOpened: PropTypes.bool.isRequired,
       onClose: PropTypes.func.isRequired,

@@ -6,6 +6,7 @@ import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import toMaterialStyle from 'material-color-hash';
 
+import { User } from '../constants/shapes';
 import generateLastActivityMessage from '../services/generate-last-activity-message';
 
 const messageWrapper = {
@@ -44,7 +45,6 @@ const ChatMessage = ({
   const materialStyles = toMaterialStyle(sender.username);
 
   return (
-    /* eslint-disable no-underscore-dangle */
     <div className={user._id === sender._id ? classes.myMessageWrapper : classes.messageWrapper}>
       <Avatar
         className={user._id === sender._id ? classes.myMessageAvatar : classes.avatar}
@@ -69,18 +69,10 @@ const ChatMessage = ({
 
 ChatMessage.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  sender: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-  }).isRequired,
+  sender: User.isRequired,
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-  }).isRequired,
+  user: User.isRequired,
 };
 
 export default withStyles(styles)(ChatMessage);

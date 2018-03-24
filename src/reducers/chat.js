@@ -11,7 +11,7 @@ const initialState = {
 
 const replaceChat = (chats, updatedChat) => {
   const result = chats.slice();
-  const oldChatIdx = result.findIndex(chat => chat._id === updatedChat._id);
+  const oldChatIdx = result.findIndex(existingChat => existingChat._id === updatedChat._id);
 
   result.splice(oldChatIdx, 1, updatedChat);
 
@@ -20,7 +20,7 @@ const replaceChat = (chats, updatedChat) => {
 
 const removeChat = (chats, removedChat) => {
   const result = chats.slice();
-  const removedChatIdx = result.findIndex(chat => chat._id === removedChat._id);
+  const removedChatIdx = result.findIndex(existingChat => existingChat._id === removedChat._id);
 
   if (removedChatIdx === -1) {
     return result;

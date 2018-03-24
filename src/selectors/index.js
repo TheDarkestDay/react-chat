@@ -6,7 +6,6 @@ const getChats = state => state.chat.chats;
 const getChatQuery = state => state.chat.chatQuery;
 const getIsAllChatsAreDisplayed = state => state.chat.isAllChatsAreDisplayed;
 
-/* eslint-disable no-underscore-dangle */
 const _isMember = (currentUser, activeChat) =>
   activeChat.members.find(user => user._id === currentUser._id);
 

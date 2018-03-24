@@ -42,7 +42,9 @@ ChatPage.defaultProps = {
 
 ChatPage.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  match: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.objectOf(PropTypes.string),
+  }),
 };
 
 export default withStyles(styles)(ChatPage);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
 export default class PrivateRoute extends Component {
-  propTypes = {
+  static propTypes = {
     component: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     getWhoami: PropTypes.func.isRequired,

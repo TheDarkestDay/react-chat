@@ -13,6 +13,7 @@ import ExploreIcon from 'material-ui-icons/Explore';
 import toMaterialStyle from 'material-color-hash';
 import { withStyles } from 'material-ui/styles';
 
+import { Chat } from '../constants/shapes';
 import generateLastActivityMessage from '../services/generate-last-activity-message';
 import CreateChannelDialog from './dialogs/CreateChannelDialog';
 
@@ -51,11 +52,9 @@ const CHATS_SELECTION = {
 };
 
 class Sidebar extends Component {
-  propTypes = {
+  static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
-    chats: PropTypes.arrayOf({
-
-    }).isRequired,
+    chats: PropTypes.arrayOf(Chat).isRequired,
     chatQuery: PropTypes.string.isRequired,
     isSocketConnected: PropTypes.bool.isRequired,
     getChats: PropTypes.func.isRequired,
@@ -129,7 +128,6 @@ class Sidebar extends Component {
         </Paper>
         <List className={classes.chatsList}>
           {chats.map(chat => (
-            /* eslint-disable-next-line no-underscore-dangle */
             <Link href={`/chat/${chat._id}`} className={classes.chatLink} to={`/chat/${chat._id}`} key={chat._id}>
               <ListItem button>
                 <Avatar style={toMaterialStyle(chat.title)}>{chat.title[0]}</Avatar>

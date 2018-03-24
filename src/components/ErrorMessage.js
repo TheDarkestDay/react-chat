@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
 
 export default class ErrorMessage extends Component {
-  propTypes = {
+  static propTypes = {
     closeSnackbar: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
+    errorMessage: PropTypes.string.isRequired,
     isErrorMessageShown: PropTypes.bool.isRequired,
   }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
@@ -9,13 +10,14 @@ import Typography from 'material-ui/Typography';
 import toMaterialStyle from 'material-color-hash';
 import { withStyles } from 'material-ui/styles';
 
+import { Chat, Message, User } from '../constants/shapes';
 import ChatWelcome from './ChatWelcome';
 import ChatMenu from './ChatMenu';
 import EditUserDialog from './dialogs/EditUserDialog';
 import MessagesList from './MessagesList';
 import NewMessageForm from './NewMessageForm';
 
-const styles = theme => ({
+const styles = () => ({
   chatHeader: {
     justifyContent: 'space-between',
   },
@@ -40,6 +42,33 @@ const styles = theme => ({
 });
 
 class ChatWindow extends Component {
+  static defaultProps = {
+    activeChat: null,
+    activeChatId: '',
+  }
+
+  static propTypes = {
+    activeChat: Chat,
+    classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    initSocketConnection: PropTypes.func.isRequired,
+    activeChatId: PropTypes.string,
+    unmountChat: PropTypes.func.isRequired,
+    setActiveChat: PropTypes.func.isRequired,
+    getMessages: PropTypes.func.isRequired,
+    mountChat: PropTypes.func.isRequired,
+    deleteChat: PropTypes.func.isRequired,
+    editUser: PropTypes.func.isRequired,
+    joinChat: PropTypes.func.isRequired,
+    leaveChat: PropTypes.func.isRequired,
+    quit: PropTypes.func.isRequired,
+    isAllowedToSendMessages: PropTypes.bool.isRequired,
+    isCreator: PropTypes.bool.isRequired,
+    isSocketConnected: PropTypes.bool.isRequired,
+    sendMessage: PropTypes.func.isRequired,
+    messages: PropTypes.arrayOf(Message).isRequired,
+    user: User.isRequired,
+  }
+
   state = {
     anchorEl: null,
     isDialogOpened: false,
@@ -62,10 +91,6 @@ class ChatWindow extends Component {
       }
     }
   }
-
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked });
-  };
 
   handleChatDelete = () => {
     this.props.deleteChat(this.props.activeChat._id);
@@ -126,23 +151,29 @@ class ChatWindow extends Component {
           <Toolbar className={classes.chatHeader}>
             {activeChat
               ?
-                (
-                  <div className={classes.flexRow}>
-                    <Avatar style={toMaterialStyle(activeChat.title)}>
-                      {activeChat.title[0]}
-                    </Avatar>
-                    <Typography className={classes.chatTitle} variant="title" color="inherit">
-                      {activeChat.title}
-                    </Typography>
-                    {isAllowedToSendMessages && <ChatMenu isCreator={isCreator} onChatDelete={this.handleChatDelete} onChatLeave={this.handleChatLeave} />}
-                  </div>
-                )
-              :
-                (
-                  <Typography variant="title" color="inherit">
-                    DogeCodes React Chat
+              (
+                <div className={classes.flexRow}>
+                  <Avatar style={toMaterialStyle(activeChat.title)}>
+                    {activeChat.title[0]}
+                  </Avatar>
+                  <Typography className={classes.chatTitle} variant="title" color="inherit">
+                    {activeChat.title}
                   </Typography>
-                )
+                  {isAllowedToSendMessages &&
+                    <ChatMenu
+                      isCreator={isCreator}
+                      onChatDelete={this.handleChatDelete}
+                      onChatLeave={this.handleChatLeave}
+                    />
+                  }
+                </div>
+              )
+              :
+              (
+                <Typography variant="title" color="inherit">
+                  DogeCodes React Chat
+                </Typography>
+              )
             }
             <div>
               <IconButton
@@ -170,7 +201,13 @@ class ChatWindow extends Component {
                 <MenuItem onClick={this.handleEditProfileClick}>Edit profile</MenuItem>
                 <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
               </Menu>
-              <EditUserDialog userInfo={user} isOpened={isDialogOpened} onDone={this.handleDialogDone} onClose={this.handleDialogClose} disabled={!isSocketConnected} />
+              <EditUserDialog
+                userInfo={user}
+                isOpened={isDialogOpened}
+                onDone={this.handleDialogDone}
+                onClose={this.handleDialogClose}
+                disabled={!isSocketConnected}
+              />
             </div>
           </Toolbar>
         </AppBar>
@@ -180,7 +217,14 @@ class ChatWindow extends Component {
               ? <MessagesList messages={messages} user={user} />
               : <ChatWelcome />
           }
-          {activeChat && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChat} sendMessage={this.handleMessageSubmit} disabled={!isSocketConnected} />}
+          {activeChat &&
+            <NewMessageForm
+              isAllowedToSendMessages={isAllowedToSendMessages}
+              joinChat={this.handleJoinChat}
+              sendMessage={this.handleMessageSubmit}
+              disabled={!isSocketConnected}
+            />
+          }
         </main>
       </div>
     );

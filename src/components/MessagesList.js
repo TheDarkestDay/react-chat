@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 
+import { Message, User } from '../constants/shapes';
 import ChatMessage from './ChatMessage';
 import StatusMessage from './StatusMessage';
 
@@ -17,14 +18,10 @@ const styles = () => ({
 });
 
 class MessagesList extends Component {
-  propTypes = {
-    classes: PropTypes.objectOf(PropTypes.string),
-    messages: PropTypes.arrayOf({
-
-    }),
-    user: PropTypes.shape({
-
-    }),
+  static propTypes = {
+    classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    messages: PropTypes.arrayOf(Message).isRequired,
+    user: User.isRequired,
   }
 
   componentWillReceiveProps() {
@@ -44,7 +41,6 @@ class MessagesList extends Component {
       <section className={classes.messagesList} ref={this.initMessagesList}>
         {
           messages.map(message => (
-            /* eslint-disable no-underscore-dangle */
             message.statusMessage
               ? <StatusMessage key={message._id} {...message} />
               : <ChatMessage key={message._id} user={user} {...message} />

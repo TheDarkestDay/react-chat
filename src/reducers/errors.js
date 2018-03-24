@@ -1,7 +1,7 @@
 import * as ActionType from '../constants/action-types';
 
 const initialState = {
-  errorMessage: null,
+  errorMessage: '',
   isErrorMessageShown: false,
 };
 

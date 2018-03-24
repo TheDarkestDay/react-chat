@@ -10,7 +10,7 @@ const styles = () => ({
 });
 
 class ChatMenu extends Component {
-    propTypes = {
+    static propTypes = {
       isCreator: PropTypes.bool.isRequired,
       onChatDelete: PropTypes.func.isRequired,
       onChatLeave: PropTypes.func.isRequired,

@@ -12,7 +12,7 @@ const styles = () => ({
 });
 
 class NewMessageForm extends Component {
-  propTypes = {
+  static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     disabled: PropTypes.bool.isRequired,
     isAllowedToSendMessages: PropTypes.bool.isRequired,
