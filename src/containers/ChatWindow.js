@@ -1,6 +1,14 @@
 import { connect } from 'react-redux';
 
-import { deleteChat, editUser, getMessages, joinChat, leaveChat, quit, setActiveChat } from '../actions/chat';
+import {
+  deleteChat,
+  editUser,
+  getMessages,
+  joinChat,
+  leaveChat,
+  quit,
+  setActiveChat,
+} from '../actions/chat';
 import { initSocketConnection, mountChat, sendMessage, unmountChat } from '../actions/sockets';
 import { getActiveChat, isAllowedToSendMessages, isCreator } from '../selectors';
 import ChatWindow from '../components/ChatWindow';
@@ -50,7 +58,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ChatWindow);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatWindow);

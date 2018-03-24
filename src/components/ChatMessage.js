@@ -56,12 +56,8 @@ const ChatMessage = ({
         <Typography variant="caption" style={{ color: materialStyles.backgroundColor }}>
           {sender.username}
         </Typography>
-        <Typography>
-          {content}
-        </Typography>
-        <Typography variant="caption">
-          {generateLastActivityMessage(createdAt)}
-        </Typography>
+        <Typography>{content}</Typography>
+        <Typography variant="caption">{generateLastActivityMessage(createdAt)}</Typography>
       </Paper>
     </div>
   );

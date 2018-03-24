@@ -7,7 +7,4 @@ const mapStateToProps = state => ({
   isRequestInProgress: state.isFetching.login || state.isFetching.signup,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(AuthPage);
+export default connect(mapStateToProps, null)(AuthPage);

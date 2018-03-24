@@ -131,4 +131,3 @@ export default function isFetching(state = initialState, action) {
       return state;
   }
 }
-

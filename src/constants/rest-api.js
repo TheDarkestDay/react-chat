@@ -1,4 +1,3 @@
-
 import { API_ROOT } from './config';
 
 const REST_API = {

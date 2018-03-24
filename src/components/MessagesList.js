@@ -22,7 +22,7 @@ class MessagesList extends Component {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     messages: PropTypes.arrayOf(Message).isRequired,
     user: User.isRequired,
-  }
+  };
 
   componentWillReceiveProps() {
     if (this.messagesList) {
@@ -32,20 +32,19 @@ class MessagesList extends Component {
 
   initMessagesList = (messagesListRef) => {
     this.messagesList = messagesListRef;
-  }
+  };
 
   render() {
     const { classes, messages, user } = this.props;
 
     return (
       <section className={classes.messagesList} ref={this.initMessagesList}>
-        {
-          messages.map(message => (
-            message.statusMessage
-              ? <StatusMessage key={message._id} {...message} />
-              : <ChatMessage key={message._id} user={user} {...message} />
-          ))
-        }
+        {messages.map(message =>
+            (message.statusMessage ? (
+              <StatusMessage key={message._id} {...message} />
+            ) : (
+              <ChatMessage key={message._id} user={user} {...message} />
+            )))}
       </section>
     );
   }

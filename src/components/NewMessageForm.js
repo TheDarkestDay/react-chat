@@ -18,17 +18,17 @@ class NewMessageForm extends Component {
     isAllowedToSendMessages: PropTypes.bool.isRequired,
     joinChat: PropTypes.func.isRequired,
     sendMessage: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     content: '',
-  }
+  };
 
   handleChange = (evt) => {
     this.setState({
       content: evt.target.value,
     });
-  }
+  };
 
   handleSubmit = (evt) => {
     evt.preventDefault();
@@ -38,7 +38,7 @@ class NewMessageForm extends Component {
     this.setState({
       content: '',
     });
-  }
+  };
 
   render() {
     const { content } = this.state;
@@ -48,13 +48,22 @@ class NewMessageForm extends Component {
 
     return (
       <Paper className={classes.newMessageFieldWrapper}>
-        {isAllowedToSendMessages ?
+        {isAllowedToSendMessages ? (
           <form onSubmit={this.handleSubmit}>
-            <Input onChange={this.handleChange} placeholder="Type your message..." fullWidth disabled={disabled} value={content} />
+            <Input
+              onChange={this.handleChange}
+              placeholder="Type your message..."
+              fullWidth
+              disabled={disabled}
+              value={content}
+            />
           </form>
-          :
-          <Button onClick={joinChat} variant="raised" color="primary" fullWidth disabled={disabled}> Join </Button>
-        }
+        ) : (
+          <Button onClick={joinChat} variant="raised" color="primary" fullWidth disabled={disabled}>
+            {' '}
+            Join{' '}
+          </Button>
+        )}
       </Paper>
     );
   }

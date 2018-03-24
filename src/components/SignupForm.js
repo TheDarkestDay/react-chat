@@ -23,13 +23,13 @@ class SignupForm extends Component {
   static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     signup: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     username: '',
     password: '',
     passwordConfirmation: '',
-  }
+  };
 
   handleFieldChange(field, evt) {
     this.setState({
@@ -46,7 +46,7 @@ class SignupForm extends Component {
       username: this.state.username,
       password: this.state.password,
     });
-  }
+  };
 
   render() {
     const { classes } = this.props;

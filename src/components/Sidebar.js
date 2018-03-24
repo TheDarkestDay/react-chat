@@ -62,7 +62,7 @@ class Sidebar extends Component {
     showAllChats: PropTypes.func.isRequired,
     searchChats: PropTypes.func.isRequired,
     createChat: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     currentSelectionIndex: 0,
@@ -76,18 +76,18 @@ class Sidebar extends Component {
 
   handleChatQueryChange = (event) => {
     this.props.searchChats(event.target.value);
-  }
+  };
 
   handleDialogClose = () => {
     this.setState({
       isDialogOpened: false,
     });
-  }
+  };
 
   handleDialogDone = (chatTitle) => {
     this.handleDialogClose();
     this.props.createChat(chatTitle);
-  }
+  };
 
   toggleChatsSelection = (event, value) => {
     this.setState({
@@ -105,7 +105,7 @@ class Sidebar extends Component {
     this.setState({
       isDialogOpened: true,
     });
-  }
+  };
 
   render() {
     const {
@@ -128,7 +128,12 @@ class Sidebar extends Component {
         </Paper>
         <List className={classes.chatsList}>
           {chats.map(chat => (
-            <Link href={`/chat/${chat._id}`} className={classes.chatLink} to={`/chat/${chat._id}`} key={chat._id}>
+            <Link
+              href={`/chat/${chat._id}`}
+              className={classes.chatLink}
+              to={`/chat/${chat._id}`}
+              key={chat._id}
+            >
               <ListItem button>
                 <Avatar style={toMaterialStyle(chat.title)}>{chat.title[0]}</Avatar>
                 <ListItemText

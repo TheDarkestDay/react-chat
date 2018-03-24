@@ -9,8 +9,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(LoginForm);
-
+export default connect(null, mapDispatchToProps)(LoginForm);

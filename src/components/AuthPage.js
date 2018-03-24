@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
-import Card, { } from 'material-ui/Card';
+import Card from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import { LinearProgress } from 'material-ui/Progress';
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -33,7 +33,8 @@ const styles = () => ({
   },
   tabs: {
     backgroundColor: '#f5f5f5',
-    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)',
+    boxShadow:
+      '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)',
   },
 });
 
@@ -47,11 +48,11 @@ class AuthPage extends Component {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     isRequestInProgress: PropTypes.bool.isRequired,
-  }
+  };
 
   state = {
     currentTabIndex: 0,
-  }
+  };
 
   handleTabChange(event, newIndex) {
     this.setState({
@@ -60,15 +61,11 @@ class AuthPage extends Component {
   }
 
   render() {
-    const {
-      classes, isAuthenticated, isRequestInProgress,
-    } = this.props;
+    const { classes, isAuthenticated, isRequestInProgress } = this.props;
     const { currentTabIndex } = this.state;
 
     if (isAuthenticated) {
-      return (
-        <Redirect to="/chat" />
-      );
+      return <Redirect to="/chat" />;
     }
 
     return (

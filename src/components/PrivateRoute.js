@@ -7,7 +7,7 @@ export default class PrivateRoute extends Component {
     component: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     getWhoami: PropTypes.func.isRequired,
-  }
+  };
 
   componentDidMount() {
     this.props.getWhoami();
@@ -19,13 +19,7 @@ export default class PrivateRoute extends Component {
     return (
       <Route
         {...rest}
-        render={props =>
-          (isAuthenticated ? (
-            <GuardedComponent {...props} />
-          ) : (
-            <Redirect to="/" />
-            ))
-        }
+        render={props => (isAuthenticated ? <GuardedComponent {...props} /> : <Redirect to="/" />)}
       />
     );
   }

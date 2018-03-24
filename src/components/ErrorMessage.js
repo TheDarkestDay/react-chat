@@ -7,7 +7,7 @@ export default class ErrorMessage extends Component {
     closeSnackbar: PropTypes.func.isRequired,
     errorMessage: PropTypes.string.isRequired,
     isErrorMessageShown: PropTypes.bool.isRequired,
-  }
+  };
 
   handleSnackbarClose = (reason) => {
     if (reason === 'clickaway') {
@@ -15,7 +15,7 @@ export default class ErrorMessage extends Component {
     }
 
     this.props.closeSnackbar();
-  }
+  };
 
   render() {
     const { errorMessage, isErrorMessageShown } = this.props;

@@ -29,13 +29,9 @@ const StatusMessage = (props) => {
         <span style={{ color: toMaterialStyle(sender.username).backgroundColor }}>
           {sender.username}
         </span>
-        <span>
-          {content}
-        </span>
+        <span>{content}</span>
       </Typography>
-      <Typography variant="caption">
-        {generateLastActivityMessage(createdAt)}
-      </Typography>
+      <Typography variant="caption">{generateLastActivityMessage(createdAt)}</Typography>
     </div>
   );
 };

@@ -20,13 +20,7 @@ const styles = () => ({
 });
 
 const ChatPage = ({ classes, match }) => (
-  <Grid
-    className={classes.mainWrapper}
-    container
-    direction="row"
-    wrap="nowrap"
-    spacing={0}
-  >
+  <Grid className={classes.mainWrapper} container direction="row" wrap="nowrap" spacing={0}>
     <Grid className={classes.sidebar} item>
       <Sidebar />
     </Grid>

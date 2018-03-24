@@ -33,4 +33,3 @@ export default function errors(state = initialState, action) {
       return state;
   }
 }
-

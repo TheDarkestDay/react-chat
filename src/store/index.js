@@ -6,18 +6,9 @@ import rootReducer from '../reducers';
 
 function configureStore() {
   if (process.env.NODE_ENV === 'production') {
-    return createStore(
-      rootReducer,
-      applyMiddleware(thunk),
-    );
+    return createStore(rootReducer, applyMiddleware(thunk));
   }
-  const store = createStore(
-    rootReducer,
-    applyMiddleware(
-      thunk,
-      logger,
-    ),
-  );
+  const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {

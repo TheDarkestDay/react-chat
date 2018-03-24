@@ -45,7 +45,7 @@ class ChatWindow extends Component {
   static defaultProps = {
     activeChat: null,
     activeChatId: '',
-  }
+  };
 
   static propTypes = {
     activeChat: Chat,
@@ -67,7 +67,7 @@ class ChatWindow extends Component {
     sendMessage: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(Message).isRequired,
     user: User.isRequired,
-  }
+  };
 
   state = {
     anchorEl: null,
@@ -94,13 +94,13 @@ class ChatWindow extends Component {
 
   handleChatDelete = () => {
     this.props.deleteChat(this.props.activeChat._id);
-  }
+  };
 
   handleDialogClose = () => {
     this.setState({
       isDialogOpened: false,
     });
-  }
+  };
 
   handleDialogDone = (username, firstName, lastName) => {
     this.props.editUser(username, firstName, lastName);
@@ -110,15 +110,15 @@ class ChatWindow extends Component {
     this.setState({
       isDialogOpened: true,
     });
-  }
+  };
 
   handleJoinChat = () => {
     this.props.joinChat(this.props.activeChat._id);
-  }
+  };
 
   handleChatLeave = () => {
     this.props.leaveChat(this.props.activeChat._id);
-  }
+  };
 
   handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget });
@@ -128,7 +128,7 @@ class ChatWindow extends Component {
     const { sendMessage, activeChat } = this.props;
 
     sendMessage(activeChat._id, content);
-  }
+  };
 
   handleClose = () => {
     this.setState({ anchorEl: null });
@@ -136,12 +136,18 @@ class ChatWindow extends Component {
 
   handleLogoutClick = () => {
     this.props.quit();
-  }
+  };
 
   render() {
     const { anchorEl, isDialogOpened } = this.state;
     const {
-      activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected, messages, user,
+      activeChat,
+      classes,
+      isAllowedToSendMessages,
+      isCreator,
+      isSocketConnected,
+      messages,
+      user,
     } = this.props;
     const isOpened = Boolean(anchorEl);
 
@@ -149,32 +155,25 @@ class ChatWindow extends Component {
       <div className={classes.chatWindowWrapper}>
         <AppBar position="static">
           <Toolbar className={classes.chatHeader}>
-            {activeChat
-              ?
-              (
-                <div className={classes.flexRow}>
-                  <Avatar style={toMaterialStyle(activeChat.title)}>
-                    {activeChat.title[0]}
-                  </Avatar>
-                  <Typography className={classes.chatTitle} variant="title" color="inherit">
-                    {activeChat.title}
-                  </Typography>
-                  {isAllowedToSendMessages &&
-                    <ChatMenu
-                      isCreator={isCreator}
-                      onChatDelete={this.handleChatDelete}
-                      onChatLeave={this.handleChatLeave}
-                    />
-                  }
-                </div>
-              )
-              :
-              (
-                <Typography variant="title" color="inherit">
-                  DogeCodes React Chat
+            {activeChat ? (
+              <div className={classes.flexRow}>
+                <Avatar style={toMaterialStyle(activeChat.title)}>{activeChat.title[0]}</Avatar>
+                <Typography className={classes.chatTitle} variant="title" color="inherit">
+                  {activeChat.title}
                 </Typography>
-              )
-            }
+                {isAllowedToSendMessages && (
+                  <ChatMenu
+                    isCreator={isCreator}
+                    onChatDelete={this.handleChatDelete}
+                    onChatLeave={this.handleChatLeave}
+                  />
+                )}
+              </div>
+            ) : (
+              <Typography variant="title" color="inherit">
+                DogeCodes React Chat
+              </Typography>
+            )}
             <div>
               <IconButton
                 aria-owns="menu-appbar"
@@ -212,19 +211,15 @@ class ChatWindow extends Component {
           </Toolbar>
         </AppBar>
         <main className={classes.main}>
-          {
-            activeChat
-              ? <MessagesList messages={messages} user={user} />
-              : <ChatWelcome />
-          }
-          {activeChat &&
+          {activeChat ? <MessagesList messages={messages} user={user} /> : <ChatWelcome />}
+          {activeChat && (
             <NewMessageForm
               isAllowedToSendMessages={isAllowedToSendMessages}
               joinChat={this.handleJoinChat}
               sendMessage={this.handleMessageSubmit}
               disabled={!isSocketConnected}
             />
-          }
+          )}
         </main>
       </div>
     );
