@@ -31,7 +31,8 @@
     "eject": "react-app-rewired eject",
     "lint": "eslint src/**/*.js",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier-eslint --write src/**/*.js"
+    "format": "prettier-eslint --write src/**/*.js",
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "**/*.js": ["npm run lint:fix", "npm run format", "git add"]
