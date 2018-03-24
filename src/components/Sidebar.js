@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Input from 'material-ui/Input';
 import Paper from 'material-ui/Paper';
@@ -18,41 +19,55 @@ import CreateChannelDialog from './dialogs/CreateChannelDialog';
 const chatSearchFormHeight = '64px';
 const bottomNavigationHeight = '56px';
 
-const styles = (theme) => ({
+const styles = () => ({
   chatLink: {
-    textDecoration: 'none'
+    textDecoration: 'none',
   },
   searchChatForm: {
-    padding: '16px 24px'
+    padding: '16px 24px',
   },
   sidebar: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   chatsList: {
     flexGrow: 1,
     overflow: 'auto',
-    maxHeight: `calc(100vh - ${chatSearchFormHeight} - ${bottomNavigationHeight})`
+    maxHeight: `calc(100vh - ${chatSearchFormHeight} - ${bottomNavigationHeight})`,
   },
   addChatBtn: {
     position: 'absolute',
     bottom: '64px',
-    right: '24px'
-  }
+    right: '24px',
+  },
 });
 
 const CHATS_SELECTION = {
   MY: 0,
-  ALL: 1
+  ALL: 1,
 };
 
 class Sidebar extends Component {
+  propTypes = {
+    classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    chats: PropTypes.arrayOf({
+
+    }).isRequired,
+    chatQuery: PropTypes.string.isRequired,
+    isSocketConnected: PropTypes.bool.isRequired,
+    getChats: PropTypes.func.isRequired,
+    showMyChats: PropTypes.func.isRequired,
+    showAllChats: PropTypes.func.isRequired,
+    searchChats: PropTypes.func.isRequired,
+    createChat: PropTypes.func.isRequired,
+  }
+
   state = {
     currentSelectionIndex: 0,
-    isDialogOpened: false
+    isDialogOpened: false,
   };
 
   componentDidMount() {
@@ -66,7 +81,7 @@ class Sidebar extends Component {
 
   handleDialogClose = () => {
     this.setState({
-      isDialogOpened: false
+      isDialogOpened: false,
     });
   }
 
@@ -77,7 +92,7 @@ class Sidebar extends Component {
 
   toggleChatsSelection = (event, value) => {
     this.setState({
-      currentSelectionIndex: value
+      currentSelectionIndex: value,
     });
 
     if (value === CHATS_SELECTION.MY) {
@@ -89,12 +104,14 @@ class Sidebar extends Component {
 
   openCreateChannelDialog = () => {
     this.setState({
-      isDialogOpened: true
+      isDialogOpened: true,
     });
   }
 
   render() {
-    const { classes, chats, chatQuery, isSocketConnected } = this.props;
+    const {
+      classes, chats, chatQuery, isSocketConnected,
+    } = this.props;
     const { currentSelectionIndex, isDialogOpened } = this.state;
 
     return (
@@ -106,35 +123,48 @@ class Sidebar extends Component {
               placeholder="Search chats..."
               value={chatQuery}
               onChange={this.handleChatQueryChange}
-              fullWidth />
+              fullWidth
+            />
           </form>
         </Paper>
         <List className={classes.chatsList}>
-          {chats.map((chat) => {
-            return (
-              <Link className={classes.chatLink} to={`/chat/${chat._id}`} key={chat._id}>
-                <ListItem button>
-                  <Avatar style={toMaterialStyle(chat.title)}>{chat.title[0]}</Avatar>
-                  <ListItemText
-                    primary={chat.title}
-                    secondary={generateLastActivityMessage(chat.updatedAt)}>
-                  </ListItemText>
-                </ListItem>
-              </Link>
-            );
-          })}
+          {chats.map(chat => (
+            /* eslint-disable-next-line no-underscore-dangle */
+            <Link href={`/chat/${chat._id}`} className={classes.chatLink} to={`/chat/${chat._id}`} key={chat._id}>
+              <ListItem button>
+                <Avatar style={toMaterialStyle(chat.title)}>{chat.title[0]}</Avatar>
+                <ListItemText
+                  primary={chat.title}
+                  secondary={generateLastActivityMessage(chat.updatedAt)}
+                />
+              </ListItem>
+            </Link>
+          ))}
         </List>
-        <Button className={classes.addChatBtn} onClick={this.openCreateChannelDialog} variant="fab" color="primary" aria-label="add" disabled={!isSocketConnected}>
+        <Button
+          className={classes.addChatBtn}
+          onClick={this.openCreateChannelDialog}
+          variant="fab"
+          color="primary"
+          aria-label="add"
+          disabled={!isSocketConnected}
+        >
           <AddIcon />
         </Button>
         <BottomNavigation
           value={currentSelectionIndex}
           onChange={this.toggleChatsSelection}
-          showLabels>
+          showLabels
+        >
           <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
         </BottomNavigation>
-        <CreateChannelDialog isOpened={isDialogOpened} onClose={this.handleDialogClose} onDone={this.handleDialogDone} disabled={!isSocketConnected} />
+        <CreateChannelDialog
+          isOpened={isDialogOpened}
+          onClose={this.handleDialogClose}
+          onDone={this.handleDialogDone}
+          disabled={!isSocketConnected}
+        />
       </aside>
     );
   }

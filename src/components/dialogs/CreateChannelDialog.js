@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Dialog, {
@@ -8,13 +9,20 @@ import Dialog, {
 } from 'material-ui/Dialog';
 
 export default class CreateChannelDialog extends Component {
+  propTypes = {
+    disabled: PropTypes.bool.isRequired,
+    isOpened: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onDone: PropTypes.func.isRequired,
+  }
+
   state = {
-    title: ''
-  };
+    title: '',
+  }
 
   handleChannelTitleChange = (evt) => {
     this.setState({
-      title: evt.target.value
+      title: evt.target.value,
     });
   }
 

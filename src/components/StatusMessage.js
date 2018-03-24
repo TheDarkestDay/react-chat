@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import toMaterialStyle from 'material-color-hash';
- 
+
 import generateLastActivityMessage from '../services/generate-last-activity-message';
 
 const styles = () => ({
@@ -12,30 +13,39 @@ const styles = () => ({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: '8px',
-    paddingBottom: '8px'
-  }
+    paddingBottom: '8px',
+  },
 });
 
-class StatusMessage extends Component {
-  render() {
-    const {classes, content, createdAt, sender} = this.props;
+const StatusMessage = (props) => {
+  const {
+    classes, content, createdAt, sender,
+  } = props;
 
-    return (
-      <div className={classes.messageWrapper}>
-        <Typography>
-          <span style={{color: toMaterialStyle(sender.username).backgroundColor}}>
-            {sender.username} 
-          </span>
-          <span>
-            {content}
-          </span>
-        </Typography>
-        <Typography variant="caption">
-          {generateLastActivityMessage(createdAt)}
-        </Typography>
-      </div>
-    );
-  }
+  return (
+    <div className={classes.messageWrapper}>
+      <Typography>
+        <span style={{ color: toMaterialStyle(sender.username).backgroundColor }}>
+          {sender.username}
+        </span>
+        <span>
+          {content}
+        </span>
+      </Typography>
+      <Typography variant="caption">
+        {generateLastActivityMessage(createdAt)}
+      </Typography>
+    </div>
+  );
+};
+
+StatusMessage.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  content: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  sender: PropTypes.shape({
+
+  }).isRequired,
 }
 
 export default withStyles(styles)(StatusMessage);

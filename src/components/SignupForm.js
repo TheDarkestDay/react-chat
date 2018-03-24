@@ -1,40 +1,50 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import { CardContent } from 'material-ui/Card';
 import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 import { withStyles } from 'material-ui/styles';
 
-const styles = (theme) => ({
+const styles = () => ({
   formControl: {
     display: 'block',
-    marginBottom: '12px'
+    marginBottom: '12px',
   },
   input: {
-    width: '100%'
+    width: '100%',
   },
   submitBtn: {
-    marginTop: '16px'
-  }
+    marginTop: '16px',
+  },
 });
 
 class SignupForm extends Component {
+  propTypes = {
+    classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    signup: PropTypes.func.isRequired,
+  }
+
   state = {
     username: '',
     password: '',
-    passwordConfirmation: ''
+    passwordConfirmation: '',
   }
 
   handleFieldChange(field, evt) {
     this.setState({
-      [field]: evt.target.value
+      [field]: evt.target.value,
     });
   }
 
-  signup() {
+  signup = () => {
+    if (this.state.password !== this.state.passwordConfirmation) {
+      return;
+    }
+
     this.props.signup({
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
     });
   }
 
@@ -46,34 +56,46 @@ class SignupForm extends Component {
         <CardContent>
           <FormControl className={classes.formControl} required>
             <InputLabel htmlFor="username">Name</InputLabel>
-            <Input id="username" className={classes.input}
-              onChange={this.handleFieldChange.bind(this, 'username')}
-              placeholder="Type your username" />
+            <Input
+              id="username"
+              className={classes.input}
+              onChange={evt => this.handleFieldChange('username', evt)}
+              placeholder="Type your username"
+            />
           </FormControl>
           <FormControl className={classes.formControl} required>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input id="password" className={classes.input} type="password"
-              onChange={this.handleFieldChange.bind(this, 'password')}
-              placeholder="Type your password" />
+            <Input
+              id="password"
+              className={classes.input}
+              type="password"
+              onChange={evt => this.handleFieldChange('password', evt)}
+              placeholder="Type your password"
+            />
           </FormControl>
           <FormControl className={classes.formControl} required>
             <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
-            <Input id="confirmPassword" className={classes.input} type="password"
-              onChange={this.handleFieldChange.bind(this, 'passwordConfirmation')}
-              placeholder="Repeat your password" />
+            <Input
+              id="confirmPassword"
+              className={classes.input}
+              type="password"
+              onChange={evt => this.handleFieldChange('passwordConfirmation', evt)}
+              placeholder="Repeat your password"
+            />
           </FormControl>
           <Button
             className={classes.submitBtn}
             variant="raised"
             color="primary"
-            fullWidth 
-            onClick={this.signup.bind(this)}>
+            fullWidth
+            onClick={this.signup}
+          >
             Sign up
           </Button>
         </CardContent>
       </React.Fragment>
     );
   }
-};
+}
 
 export default withStyles(styles)(SignupForm);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton';
 import MoreVert from 'material-ui-icons/MoreVert';
@@ -9,59 +10,65 @@ const styles = () => ({
 });
 
 class ChatMenu extends Component {
+    propTypes = {
+      isCreator: PropTypes.bool.isRequired,
+      onChatDelete: PropTypes.func.isRequired,
+      onChatLeave: PropTypes.func.isRequired,
+    }
+
     state = {
-        anchorEl: null
+      anchorEl: null,
     }
 
     handleClose = () => {
-        this.setState({
-            anchorEl: null
-        });
+      this.setState({
+        anchorEl: null,
+      });
     }
 
     handleMenu = (evt) => {
-        this.setState({
-            anchorEl: evt.currentTarget
-        });
+      this.setState({
+        anchorEl: evt.currentTarget,
+      });
     }
 
     render() {
-        const { anchorEl } = this.state;
-        const { isCreator, onChatDelete, onChatLeave } = this.props;
-        const isOpened = Boolean(anchorEl);
+      const { anchorEl } = this.state;
+      const { isCreator, onChatDelete, onChatLeave } = this.props;
+      const isOpened = Boolean(anchorEl);
 
-        return (
-            <div>
-                <IconButton
-                    aria-owns="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={this.handleMenu}
-                    color="inherit"
-                >
-                    <MoreVert />
-                </IconButton>
-                <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
+      return (
+        <div>
+          <IconButton
+            aria-owns="menu-appbar"
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+            color="inherit"
+          >
+            <MoreVert />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
                         vertical: 'top',
                         horizontal: 'right',
                     }}
-                    transformOrigin={{
+            transformOrigin={{
                         vertical: 'top',
                         horizontal: 'right',
                     }}
-                    open={isOpened}
-                    onClose={this.handleClose}
-                >
-                    {
+            open={isOpened}
+            onClose={this.handleClose}
+          >
+            {
                         isCreator
                             ? (<MenuItem onClick={onChatDelete}>Delete chat</MenuItem>)
                             : (<MenuItem onClick={onChatLeave}>Leave chat</MenuItem>)
                     }
-                </Menu>
-            </div>
-        );
+          </Menu>
+        </div>
+      );
     }
 }
 

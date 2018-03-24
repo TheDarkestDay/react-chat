@@ -9,5 +9,5 @@ export const rootReducer = combineReducers({
   auth,
   chat,
   errors,
-  isFetching
+  isFetching,
 });

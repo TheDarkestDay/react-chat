@@ -15,34 +15,34 @@ import EditUserDialog from './dialogs/EditUserDialog';
 import MessagesList from './MessagesList';
 import NewMessageForm from './NewMessageForm';
 
-const styles = (theme) => ({
+const styles = theme => ({
   chatHeader: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   chatTitle: {
-    marginLeft: '16px'
+    marginLeft: '16px',
   },
   chatWindowWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%'
+    height: '100%',
   },
   flexRow: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   main: {
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    padding: '16px  24px'
-  }
+    padding: '16px  24px',
+  },
 });
 
 class ChatWindow extends Component {
   state = {
     anchorEl: null,
-    isDialogOpened: false
+    isDialogOpened: false,
   };
 
   componentDidMount() {
@@ -73,7 +73,7 @@ class ChatWindow extends Component {
 
   handleDialogClose = () => {
     this.setState({
-      isDialogOpened: false
+      isDialogOpened: false,
     });
   }
 
@@ -83,7 +83,7 @@ class ChatWindow extends Component {
 
   handleEditProfileClick = () => {
     this.setState({
-      isDialogOpened: true
+      isDialogOpened: true,
     });
   }
 
@@ -115,7 +115,9 @@ class ChatWindow extends Component {
 
   render() {
     const { anchorEl, isDialogOpened } = this.state;
-    const { activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected, messages, user } = this.props;
+    const {
+      activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected, messages, user,
+    } = this.props;
     const isOpened = Boolean(anchorEl);
 
     return (
@@ -132,7 +134,7 @@ class ChatWindow extends Component {
                     <Typography className={classes.chatTitle} variant="title" color="inherit">
                       {activeChat.title}
                     </Typography>
-                    {isAllowedToSendMessages && <ChatMenu isCreator={isCreator} onChatDelete={this.handleChatDelete} onChatLeave={this.handleChatLeave}/>}
+                    {isAllowedToSendMessages && <ChatMenu isCreator={isCreator} onChatDelete={this.handleChatDelete} onChatLeave={this.handleChatLeave} />}
                   </div>
                 )
               :
@@ -175,10 +177,10 @@ class ChatWindow extends Component {
         <main className={classes.main}>
           {
             activeChat
-              ? <MessagesList messages={messages} user={user}/>
+              ? <MessagesList messages={messages} user={user} />
               : <ChatWelcome />
           }
-          {activeChat && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChat} sendMessage={this.handleMessageSubmit} disabled={!isSocketConnected}/>}
+          {activeChat && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChat} sendMessage={this.handleMessageSubmit} disabled={!isSocketConnected} />}
         </main>
       </div>
     );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 
 import ChatMessage from './ChatMessage';
@@ -11,31 +12,46 @@ const styles = () => ({
   messagesList: {
     overflow: 'auto',
     maxHeight: `calc(100vh - ${chatHeaderHeight} - ${newMessageFormHeight})`,
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 });
 
 class MessagesList extends Component {
-  componentWillReceiveProps(nextProps) {
+  propTypes = {
+    classes: PropTypes.objectOf(PropTypes.string),
+    messages: PropTypes.arrayOf({
+
+    }),
+    user: PropTypes.shape({
+
+    }),
+  }
+
+  componentWillReceiveProps() {
     if (this.messagesList) {
       requestAnimationFrame(() => this.messagesList.scrollTo(0, this.messagesList.scrollHeight));
     }
+  }
+
+  initMessagesList = (messagesListRef) => {
+    this.messagesList = messagesListRef;
   }
 
   render() {
     const { classes, messages, user } = this.props;
 
     return (
-      <section className={classes.messagesList} ref={(messagesList) => this.messagesList = messagesList}>
+      <section className={classes.messagesList} ref={this.initMessagesList}>
         {
-          messages.map((message) => {
-            return (
-              message.statusMessage ? <StatusMessage key={message._id} {...message} /> : <ChatMessage key={message._id} user={user} {...message} />
-            );
-          })
+          messages.map(message => (
+            /* eslint-disable no-underscore-dangle */
+            message.statusMessage
+              ? <StatusMessage key={message._id} {...message} />
+              : <ChatMessage key={message._id} user={user} {...message} />
+          ))
         }
       </section>
-    )
+    );
   }
 }
 

@@ -1,14 +1,14 @@
 const DurationInMs = {
   MINUTE: 1000 * 60,
   HOUR: 1000 * 60 * 60,
-  DAY: 1000 * 60 * 60 * 24
+  DAY: 1000 * 60 * 60 * 24,
 };
 
 export default function generateLastActivityMessage(lastUpdateDate) {
   const lastUpdateDateInMs = new Date(lastUpdateDate);
   const timeDiff = Date.now() - lastUpdateDateInMs;
 
-  let result = `A few seconds ago`;
+  let result = 'A few seconds ago';
 
   if (timeDiff >= DurationInMs.MINUTE) {
     result = `${Math.floor(timeDiff / DurationInMs.MINUTE)} minutes ago`;
