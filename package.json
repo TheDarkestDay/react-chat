@@ -27,13 +27,13 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "cross-env CI=true react-app-rewired test --env=jsdom",
+    "test": "react-app-rewired test --env=jsdom",
     "eject": "react-app-rewired eject",
     "lint": "eslint src/**/*.js",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier-eslint --write src/**/*.js",
     "precommit": "lint-staged",
-    "prepush": "npm test"
+    "prepush": "cross-env CI=true npm test"
   },
   "lint-staged": {
     "**/*.js": [

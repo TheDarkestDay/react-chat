@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<div
+  className="StatusMessage-messageWrapper-26"
+>
+  <p
+    className="MuiTypography-root-27 MuiTypography-body1-36"
+  >
+    <span
+      style={
+        Object {
+          "color": "#795548",
+        }
+      }
+    >
+      test_user
+    </span>
+    <span>
+      joined
+    </span>
+  </p>
+  <span
+    className="MuiTypography-root-27 MuiTypography-caption-37"
+  >
+    10310 days ago
+  </span>
+</div>
+`;
