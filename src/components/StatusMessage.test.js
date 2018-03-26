@@ -6,6 +6,8 @@ import StatusMessage from './StatusMessage';
 
 import { userMock } from '../mocks';
 
+jest.mock('../services/generate-last-activity-message', () => () => '2 days ago');
+
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<StatusMessage content="joined" createdAt="01-01-1990" sender={userMock} />, div);

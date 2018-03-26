@@ -6,6 +6,8 @@ import ChatMessage from './ChatMessage';
 
 import { userMock } from '../mocks';
 
+jest.mock('../services/generate-last-activity-message', () => () => '2 days ago');
+
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
