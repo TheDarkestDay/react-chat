@@ -2,13 +2,17 @@ import * as ActionType from '../constants/action-types';
 import backend from '../services/backend';
 
 export function login(credentials) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching.login) {
+      return;
+    }
+
     dispatch(loginRequest());
 
     backend
       .login(credentials)
-      .then((responseData) => {
-        localStorage.setItem('token', responseData.token);
+      .then((token) => {
+        localStorage.setItem('token', token);
         dispatch(loginSuccess())
       })
       .catch((error) => dispatch(loginError(error)))
@@ -35,7 +39,11 @@ export function loginError(errorMessage) {
 }
 
 export function signup(credentials) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching.signup) {
+      return;
+    }
+
     dispatch(signupRequest());
 
     backend
@@ -68,7 +76,11 @@ export function signupError(errorMessage) {
 }
 
 export function getWhoami() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().isFetching.getWhoami) {
+      return;
+    }
+    
     backend
       .getWhoami()
       .then((user) => dispatch(whoamiSuccess(user)))
@@ -87,6 +99,12 @@ export function whoamiError(errorMessage) {
   return {
     type: ActionType.WHOAMI_ERROR,
     payload: errorMessage
+  }
+}
+
+export function logout() {
+  return {
+    type: ActionType.LOGOUT
   }
 }
 

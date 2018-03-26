@@ -1,26 +1,15 @@
 import { connect } from 'react-redux';
 
 import AuthPage from '../components/AuthPage';
-import { closeSnackbar } from '../actions/auth';
 
 const mapStateToProps = (state) => {
   return {
-    errorMessage: state.auth.errorMessage,
     isAuthenticated: state.auth.isAuthenticated,
-    isErrorMessageShown: state.auth.isErrorMessageShown,
-    isRequestInProgress: state.auth.isRequestInProgress
+    isRequestInProgress: state.isFetching.login || state.isFetching.signup
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    closeSnackbar: ()  => {
-      dispatch(closeSnackbar());
-    }
-  }
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AuthPage);

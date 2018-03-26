@@ -1,95 +1,147 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import Button from 'material-ui/Button';
+import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
-import Paper from 'material-ui/Paper';
-import Input from 'material-ui/Input';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import toMaterialStyle from 'material-color-hash';
 import { withStyles } from 'material-ui/styles';
 
-import ChatMessage from './ChatMessage';
-
-const chatHeaderHeight = '64px';
-const newMessageFormHeight = '64px';
+import ChatWelcome from './ChatWelcome';
+import ChatMenu from './ChatMenu';
+import EditUserDialog from './dialogs/EditUserDialog';
+import MessagesList from './MessagesList';
+import NewMessageForm from './NewMessageForm';
 
 const styles = (theme) => ({
   chatHeader: {
     justifyContent: 'space-between'
+  },
+  chatTitle: {
+    marginLeft: '16px'
   },
   chatWindowWrapper: {
     display: 'flex',
     flexDirection: 'column',
     height: '100%'
   },
+  flexRow: {
+    display: 'flex',
+    alignItems: 'center'
+  },
   main: {
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
     padding: '16px  24px'
-  },
-  messagesList: {
-    overflow: 'auto',
-    maxHeight: `calc(100vh - ${chatHeaderHeight} - ${newMessageFormHeight})`,
-    flexGrow: 1
-  },
-  newMessageFieldWrapper: {
-    padding: '16px 24px'
   }
 });
 
 class ChatWindow extends Component {
   state = {
     anchorEl: null,
-    isJoined: true,
-    messages: [
-      {
-        id: 1,
-        username: 'Alexander Brenchev',
-        content: 'A sample text',
-        createdAt: '21-Jan-1975'
-      },
-      {
-        id: 2,
-        username: 'Alexander Brenchev',
-        content: 'A sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample textA sample text',
-        createdAt: '21-Jan-1975'
-      },
-      {
-        id: 3,
-        username: 'Alexander Brenchev',
-        content: 'A sample text',
-        createdAt: '21-Jan-1975'
-      }
-    ]
+    isDialogOpened: false
   };
+
+  componentDidMount() {
+    this.props.initSocketConnection();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeChatId !== this.props.activeChatId) {
+      if (this.props.activeChatId) {
+        this.props.unmountChat(this.props.activeChatId);
+      }
+
+      if (nextProps.activeChatId) {
+        this.props.setActiveChat(nextProps.activeChatId);
+        this.props.getMessages(nextProps.activeChatId);
+        this.props.mountChat(nextProps.activeChatId);
+      }
+    }
+  }
 
   handleChange = (event, checked) => {
     this.setState({ auth: checked });
   };
 
-  handleMenu = event => {
+  handleChatDelete = () => {
+    this.props.deleteChat(this.props.activeChat._id);
+  }
+
+  handleDialogClose = () => {
+    this.setState({
+      isDialogOpened: false
+    });
+  }
+
+  handleDialogDone = (username, firstName, lastName) => {
+    this.props.editUser(username, firstName, lastName);
+  };
+
+  handleEditProfileClick = () => {
+    this.setState({
+      isDialogOpened: true
+    });
+  }
+
+  handleJoinChat = () => {
+    this.props.joinChat(this.props.activeChat._id);
+  }
+
+  handleChatLeave = () => {
+    this.props.leaveChat(this.props.activeChat._id);
+  }
+
+  handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
+
+  handleMessageSubmit = (content) => {
+    const { sendMessage, activeChat } = this.props;
+
+    sendMessage(activeChat._id, content);
+  }
 
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
 
+  handleLogoutClick = () => {
+    this.props.quit();
+  }
+
   render() {
-    const { anchorEl } = this.state;
-    const { classes } = this.props;
+    const { anchorEl, isDialogOpened } = this.state;
+    const { activeChat, classes, isAllowedToSendMessages, isCreator, isSocketConnected, messages, user } = this.props;
     const isOpened = Boolean(anchorEl);
 
     return (
       <div className={classes.chatWindowWrapper}>
         <AppBar position="static">
           <Toolbar className={classes.chatHeader}>
-            <Typography variant="title" color="inherit">
-              DogeCodes React Chat
-            </Typography>
+            {activeChat
+              ?
+                (
+                  <div className={classes.flexRow}>
+                    <Avatar style={toMaterialStyle(activeChat.title)}>
+                      {activeChat.title[0]}
+                    </Avatar>
+                    <Typography className={classes.chatTitle} variant="title" color="inherit">
+                      {activeChat.title}
+                    </Typography>
+                    {isAllowedToSendMessages && <ChatMenu isCreator={isCreator} onChatDelete={this.handleChatDelete} onChatLeave={this.handleChatLeave}/>}
+                  </div>
+                )
+              :
+                (
+                  <Typography variant="title" color="inherit">
+                    DogeCodes React Chat
+                  </Typography>
+                )
+            }
             <div>
               <IconButton
                 aria-owns="menu-appbar"
@@ -113,32 +165,20 @@ class ChatWindow extends Component {
                 open={isOpened}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>Edit profile</MenuItem>
-                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                <MenuItem onClick={this.handleEditProfileClick}>Edit profile</MenuItem>
+                <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
               </Menu>
+              <EditUserDialog userInfo={user} isOpened={isDialogOpened} onDone={this.handleDialogDone} onClose={this.handleDialogClose} disabled={!isSocketConnected} />
             </div>
           </Toolbar>
         </AppBar>
         <main className={classes.main}>
-          <section className={classes.messagesList}>
-            {
-              this.state.messages.map((message) => {
-                return (
-                  <ChatMessage key={message.id} {...message} />
-                );
-              })
-            }
-          </section>
-          <Paper className={classes.newMessageFieldWrapper}>
-            {this.state.isJoined &&
-              (<form>
-                <Input placeholder="Type your message..." fullWidth />
-              </form>)
-            }
-            {!this.state.isJoined &&
-              (<Button variant="raised" color="primary" fullWidth> Join </Button>)
-            }
-          </Paper>
+          {
+            activeChat
+              ? <MessagesList messages={messages} user={user}/>
+              : <ChatWelcome />
+          }
+          {activeChat && <NewMessageForm isAllowedToSendMessages={isAllowedToSendMessages} joinChat={this.handleJoinChat} sendMessage={this.handleMessageSubmit} disabled={!isSocketConnected}/>}
         </main>
       </div>
     );

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 
-import Sidebar from './Sidebar';
-import ChatWindow from './ChatWindow';
+import Sidebar from '../containers/Sidebar';
+import ChatWindow from '../containers/ChatWindow';
 
 const styles = (theme) => ({
   mainWrapper: {
@@ -20,7 +20,7 @@ const styles = (theme) => ({
 
 class ChatPage extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, match } = this.props;
 
     return (
       <Grid 
@@ -33,7 +33,7 @@ class ChatPage extends Component {
           <Sidebar />
         </Grid>
         <Grid className={classes.chatWindow} item>
-          <ChatWindow />
+          <ChatWindow activeChatId={match.params.id} />
         </Grid>
       </Grid>
     );

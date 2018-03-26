@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Input from 'material-ui/Input';
 import Paper from 'material-ui/Paper';
 import List, { ListItem, ListItemText } from 'material-ui/List';
@@ -8,12 +9,19 @@ import AddIcon from 'material-ui-icons/Add';
 import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavigation';
 import RestoreIcon from 'material-ui-icons/Restore';
 import ExploreIcon from 'material-ui-icons/Explore';
+import toMaterialStyle from 'material-color-hash';
 import { withStyles } from 'material-ui/styles';
+
+import generateLastActivityMessage from '../services/generate-last-activity-message';
+import CreateChannelDialog from './dialogs/CreateChannelDialog';
 
 const chatSearchFormHeight = '64px';
 const bottomNavigationHeight = '56px';
 
 const styles = (theme) => ({
+  chatLink: {
+    textDecoration: 'none'
+  },
   searchChatForm: {
     padding: '16px 24px'
   },
@@ -36,38 +44,58 @@ const styles = (theme) => ({
   }
 });
 
+const CHATS_SELECTION = {
+  MY: 0,
+  ALL: 1
+};
+
 class Sidebar extends Component {
   state = {
-    chatQuery: '',
-    chats: [
-      {
-        id: 1,
-        name: 'React talks',
-        daysSinceLastActivity: 1
-      },
-      {
-        id: 2,
-        name: 'Angular talks',
-        daysSinceLastActivity: 2
-      },
-      {
-        id: 3,
-        name: 'Vue talks',
-        daysSinceLastActivity: 3
-      }
-    ],
-    currentTabIndex: 0,
+    currentSelectionIndex: 0,
+    isDialogOpened: false
   };
 
-  handleTabChange = (event, value) => {
-    this.setState({ 
-      currentTabIndex: value 
+  componentDidMount() {
+    this.props.getChats();
+    this.props.showMyChats();
+  }
+
+  handleChatQueryChange = (event) => {
+    this.props.searchChats(event.target.value);
+  }
+
+  handleDialogClose = () => {
+    this.setState({
+      isDialogOpened: false
     });
+  }
+
+  handleDialogDone = (chatTitle) => {
+    this.handleDialogClose();
+    this.props.createChat(chatTitle);
+  }
+
+  toggleChatsSelection = (event, value) => {
+    this.setState({
+      currentSelectionIndex: value
+    });
+
+    if (value === CHATS_SELECTION.MY) {
+      this.props.showMyChats();
+    } else {
+      this.props.showAllChats();
+    }
   };
+
+  openCreateChannelDialog = () => {
+    this.setState({
+      isDialogOpened: true
+    });
+  }
 
   render() {
-    const { classes } = this.props;
-    const { currentTabIndex } = this.state;
+    const { classes, chats, chatQuery, isSocketConnected } = this.props;
+    const { currentSelectionIndex, isDialogOpened } = this.state;
 
     return (
       <aside className={classes.sidebar}>
@@ -76,33 +104,37 @@ class Sidebar extends Component {
             <Input
               id="chatSearch"
               placeholder="Search chats..."
-              value={this.state.chatQuery} 
+              value={chatQuery}
+              onChange={this.handleChatQueryChange}
               fullWidth />
           </form>
         </Paper>
         <List className={classes.chatsList}>
-          {this.state.chats.map((chat) => {
+          {chats.map((chat) => {
             return (
-              <ListItem key={chat.id} button>
-                <Avatar>{chat.name[0]}</Avatar>
-                <ListItemText 
-                  primary={chat.name} 
-                  secondary={`${chat.daysSinceLastActivity} days ago`}>
-                </ListItemText>
-              </ListItem>
+              <Link className={classes.chatLink} to={`/chat/${chat._id}`} key={chat._id}>
+                <ListItem button>
+                  <Avatar style={toMaterialStyle(chat.title)}>{chat.title[0]}</Avatar>
+                  <ListItemText
+                    primary={chat.title}
+                    secondary={generateLastActivityMessage(chat.updatedAt)}>
+                  </ListItemText>
+                </ListItem>
+              </Link>
             );
           })}
         </List>
-        <Button className={classes.addChatBtn} variant="fab" color="primary" aria-label="add">
+        <Button className={classes.addChatBtn} onClick={this.openCreateChannelDialog} variant="fab" color="primary" aria-label="add" disabled={!isSocketConnected}>
           <AddIcon />
         </Button>
-        <BottomNavigation 
-          value={currentTabIndex}
-          onChange={this.handleTabChange}
+        <BottomNavigation
+          value={currentSelectionIndex}
+          onChange={this.toggleChatsSelection}
           showLabels>
           <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
           <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
         </BottomNavigation>
+        <CreateChannelDialog isOpened={isDialogOpened} onClose={this.handleDialogClose} onDone={this.handleDialogDone} disabled={!isSocketConnected} />
       </aside>
     );
   }

@@ -9,6 +9,7 @@ import store from './store';
 import AuthPage from './containers/AuthPage';
 import ChatPage from './components/ChatPage';
 import PrivateRoute from './containers/PrivateRoute';
+import WithErrorMessage from './containers/WithErrorMessage';
 
 class App extends Component {
   render() {
@@ -18,8 +19,8 @@ class App extends Component {
           <React.Fragment>
             <Reboot />
             <Switch>
-              <Route path="/" exact component={AuthPage} />
-              <PrivateRoute path="/chat" component={ChatPage} />
+              <Route path="/" exact component={(props) => <WithErrorMessage component={AuthPage} {...props} />} />
+              <PrivateRoute path="/chat/:id?" component={(props) => <WithErrorMessage component={ChatPage} {...props} />} />
               <Redirect to="/" />
             </Switch>
           </React.Fragment>

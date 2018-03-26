@@ -47,14 +47,6 @@ class AuthPage extends Component {
     currentTabIndex: 0
   }
 
-  handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    this.props.closeSnackbar();
-  };
-
   handleTabChange(event, newIndex) {
     this.setState({
       currentTabIndex: newIndex

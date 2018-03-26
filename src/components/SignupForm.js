@@ -32,7 +32,6 @@ class SignupForm extends Component {
   }
 
   signup() {
-    console.log(this.state);
     this.props.signup({
       username: this.state.username,
       password: this.state.password
