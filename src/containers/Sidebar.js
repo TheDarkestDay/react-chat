@@ -4,35 +4,28 @@ import { createChat, chatQueryChange, getChats, showAllChats, showMyChats } from
 import { getVisibleChats } from '../selectors';
 import Sidebar from '../components/Sidebar';
 
-const mapStateToProps = (state) => {
-  return {
-    chats: getVisibleChats(state),
-    chatQuery: state.chat.chatQuery,
-    isSocketConnected: state.chat.isSocketConnected
-  }
-};
+const mapStateToProps = state => ({
+  chats: getVisibleChats(state),
+  chatQuery: state.chat.chatQuery,
+  isSocketConnected: state.chat.isSocketConnected,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createChat: (chatData) => {
-      dispatch(createChat(chatData));
-    },
-    getChats: () => {
-      dispatch(getChats());
-    },
-    showAllChats: () => {
-      dispatch(showAllChats());
-    },
-    showMyChats: () => {
-      dispatch(showMyChats());
-    },
-    searchChats: (query) => {
-      dispatch(chatQueryChange(query));
-    }
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  createChat: (chatData) => {
+    dispatch(createChat(chatData));
+  },
+  getChats: () => {
+    dispatch(getChats());
+  },
+  showAllChats: () => {
+    dispatch(showAllChats());
+  },
+  showMyChats: () => {
+    dispatch(showMyChats());
+  },
+  searchChats: (query) => {
+    dispatch(chatQueryChange(query));
+  },
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Sidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

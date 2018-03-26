@@ -14,4 +14,3 @@ if (module.hot) {
     ReactDOM.render(<App />, rootElement);
   });
 }
-

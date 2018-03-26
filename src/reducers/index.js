@@ -5,9 +5,9 @@ import chat from './chat';
 import errors from './errors';
 import isFetching from './is-fetching';
 
-export const rootReducer = combineReducers({
+export default combineReducers({
   auth,
   chat,
   errors,
-  isFetching
+  isFetching,
 });

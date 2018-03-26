@@ -1,41 +1,47 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import { CardContent } from 'material-ui/Card';
 import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 import { withStyles } from 'material-ui/styles';
 
-const styles = (theme) => ({
+const styles = () => ({
   formControl: {
     display: 'block',
-    marginBottom: '12px'
+    marginBottom: '12px',
   },
   input: {
-    width: '100%'
+    width: '100%',
   },
   submitBtn: {
-    marginTop: '16px'
-  }
+    marginTop: '16px',
+  },
 });
 
 class LoginForm extends Component {
+  static propTypes = {
+    classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    login: PropTypes.func.isRequired,
+  };
+
   state = {
     username: '',
-    password: ''
-  }
+    password: '',
+  };
 
   handleFieldChange(field, evt) {
     this.setState({
-      [field]: evt.target.value
+      [field]: evt.target.value,
     });
   }
 
-  login() {
+  login = () => {
     this.props.login({
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
     });
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -48,24 +54,27 @@ class LoginForm extends Component {
             <Input
               id="username"
               className={classes.input}
-              onChange={this.handleFieldChange.bind(this, 'username')}
-              placeholder="Type your username" />
+              onChange={evt => this.handleFieldChange('username', evt)}
+              placeholder="Type your username"
+            />
           </FormControl>
           <FormControl className={classes.formControl} required>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input
               id="password"
               className={classes.input}
-              onChange={this.handleFieldChange.bind(this, 'password')}
+              onChange={evt => this.handleFieldChange('password', evt)}
               type="password"
-              placeholder="Type your password" />
+              placeholder="Type your password"
+            />
           </FormControl>
           <Button
             className={classes.submitBtn}
             variant="raised"
             color="primary"
             fullWidth
-            onClick={this.login.bind(this)}>
+            onClick={this.login}
+          >
             Login
           </Button>
         </CardContent>
