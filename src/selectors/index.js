@@ -7,7 +7,7 @@ const getChatQuery = state => state.chat.chatQuery;
 const getIsAllChatsAreDisplayed = state => state.chat.isAllChatsAreDisplayed;
 
 const _isMember = (currentUser, activeChat) =>
-  activeChat.members.find(user => user._id === currentUser._id);
+  activeChat.members.findIndex(user => user._id === currentUser._id) > -1;
 
 const _isCreator = (currentUser, activeChat) => activeChat.creator._id === currentUser._id;
 

@@ -18,16 +18,18 @@ const styles = () => ({
 });
 
 class MessagesList extends Component {
+  static defaultProps = {
+    user: {},
+  };
+
   static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     messages: PropTypes.arrayOf(Message).isRequired,
-    user: User.isRequired,
+    user: User,
   };
 
   componentWillReceiveProps() {
-    if (this.messagesList) {
-      requestAnimationFrame(() => this.messagesList.scrollTo(0, this.messagesList.scrollHeight));
-    }
+    requestAnimationFrame(() => this.messagesList && this.messagesList.scrollTo(0, this.messagesList.scrollHeight));
   }
 
   initMessagesList = (messagesListRef) => {

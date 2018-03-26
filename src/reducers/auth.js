@@ -21,7 +21,7 @@ export default function auth(state = initialState, action) {
         ...state,
         user: {
           ...state.user,
-          payload,
+          ...payload,
         },
       };
     case ActionType.LOGOUT:

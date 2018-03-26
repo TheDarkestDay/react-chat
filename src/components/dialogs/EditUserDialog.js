@@ -4,18 +4,19 @@ import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 
+import { User } from '../../constants/shapes';
+
 export default class EditUserDialog extends Component {
+  static defaultProps = {
+    userInfo: null,
+  };
+
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
     isOpened: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onDone: PropTypes.func.isRequired,
-    userInfo: PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-    }).isRequired,
+    userInfo: User,
   };
 
   state = {

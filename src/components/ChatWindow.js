@@ -45,6 +45,7 @@ class ChatWindow extends Component {
   static defaultProps = {
     activeChat: null,
     activeChatId: '',
+    user: null,
   };
 
   static propTypes = {
@@ -66,7 +67,7 @@ class ChatWindow extends Component {
     isSocketConnected: PropTypes.bool.isRequired,
     sendMessage: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(Message).isRequired,
-    user: User.isRequired,
+    user: User,
   };
 
   state = {
