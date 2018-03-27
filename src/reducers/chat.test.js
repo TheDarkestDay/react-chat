@@ -80,7 +80,10 @@ describe('Chat reducer', () => {
       members: [userMock],
     };
 
-    expect(reducer(stateMock, { type: ActionType.JOIN_CHAT_SUCCESS, payload: payloadMock })).toEqual({
+    expect(reducer(stateMock, {
+      type: ActionType.JOIN_CHAT_SUCCESS,
+      payload: payloadMock,
+    })).toEqual({
       activeChatId: '',
       chats: [
         {
@@ -107,7 +110,10 @@ describe('Chat reducer', () => {
 
     const payloadMock = ['Message #1', 'Message #2', 'Message #3'];
 
-    expect(reducer(stateMock, { type: ActionType.GET_MESSAGES_SUCCESS, payload: payloadMock })).toEqual({
+    expect(reducer(stateMock, {
+      type: ActionType.GET_MESSAGES_SUCCESS,
+      payload: payloadMock,
+    })).toEqual({
       activeChatId: '',
       chats: [],
       chatQuery: 'query',
@@ -136,7 +142,10 @@ describe('Chat reducer', () => {
       _id: '1',
     };
 
-    expect(reducer(stateMock, { type: ActionType.DELETE_CHAT_SUCCESS, payload: payloadMock })).toEqual({
+    expect(reducer(stateMock, {
+      type: ActionType.DELETE_CHAT_SUCCESS,
+      payload: payloadMock,
+    })).toEqual({
       activeChatId: '',
       chats: [],
       chatQuery: 'query',
@@ -165,7 +174,10 @@ describe('Chat reducer', () => {
       _id: '1',
     };
 
-    expect(reducer(stateMock, { type: ActionType.LEAVE_CHAT_SUCCESS, payload: payloadMock })).toEqual({
+    expect(reducer(stateMock, {
+      type: ActionType.LEAVE_CHAT_SUCCESS,
+      payload: payloadMock,
+    })).toEqual({
       activeChatId: '',
       chats: [
         {
@@ -251,7 +263,10 @@ describe('Chat reducer', () => {
       _id: '1',
     };
 
-    expect(reducer(stateMock, { type: ActionType.DELETED_CHAT_EVENT, payload: payloadMock })).toEqual({
+    expect(reducer(stateMock, {
+      type: ActionType.DELETED_CHAT_EVENT,
+      payload: payloadMock,
+    })).toEqual({
       activeChatId: '',
       chats: [],
       chatQuery: '',
@@ -268,7 +283,10 @@ describe('Chat reducer', () => {
       sender: userMock,
     };
 
-    expect(reducer(undefined, { type: ActionType.NEW_MESSAGE_EVENT, payload: payloadMock })).toEqual({
+    expect(reducer(undefined, {
+      type: ActionType.NEW_MESSAGE_EVENT,
+      payload: payloadMock,
+    })).toEqual({
       activeChatId: '',
       chats: [],
       chatQuery: '',
