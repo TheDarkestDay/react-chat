@@ -33,7 +33,9 @@ class MessagesList extends Component {
   }
 
   scrollDown() {
-    return this.messagesList && this.messagesList.scrollTo(0, this.messagesList.scrollHeight);
+    if (this.messagesList) {
+      this.messagesList.scrollTo(0, this.messagesList.scrollHeight);
+    }
   }
 
   initMessagesList = (messagesListRef) => {
