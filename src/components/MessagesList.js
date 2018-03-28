@@ -32,11 +32,11 @@ class MessagesList extends Component {
     requestAnimationFrame(this.scrollDown);
   }
 
-  scrollDown() {
+  scrollDown = () => {
     if (this.messagesList) {
       this.messagesList.scrollTo(0, this.messagesList.scrollHeight);
     }
-  }
+  };
 
   initMessagesList = (messagesListRef) => {
     this.messagesList = messagesListRef;
