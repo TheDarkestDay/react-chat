@@ -67,8 +67,8 @@ export function signup(credentials) {
 
     backend
       .signup(credentials)
-      .then((responseData) => {
-        localStorage.setItem('token', responseData.token);
+      .then((token) => {
+        localStorage.setItem('token', token);
         dispatch(signupSuccess());
       })
       .catch(error => dispatch(signupError(error)));
