@@ -29,8 +29,11 @@ class MessagesList extends Component {
   };
 
   componentWillReceiveProps() {
-    /* eslint-disable-next-line max-len */
-    requestAnimationFrame(() => this.messagesList && this.messagesList.scrollTo(0, this.messagesList.scrollHeight));
+    requestAnimationFrame(this.scrollDown);
+  }
+
+  scrollDown() {
+    return this.messagesList && this.messagesList.scrollTo(0, this.messagesList.scrollHeight);
   }
 
   initMessagesList = (messagesListRef) => {
