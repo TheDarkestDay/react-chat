@@ -23,6 +23,7 @@ class SignupForm extends Component {
   static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string).isRequired,
     signup: PropTypes.func.isRequired,
+    signupError: PropTypes.func.isRequired,
   };
 
   state = {
@@ -39,6 +40,7 @@ class SignupForm extends Component {
 
   signup = () => {
     if (this.state.password !== this.state.passwordConfirmation) {
+      this.props.signupError('Passwords does not match');
       return;
     }
 
