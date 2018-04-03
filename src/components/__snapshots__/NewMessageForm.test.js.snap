@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<div
+  className="MuiPaper-root-45 MuiPaper-shadow2-49 MuiPaper-rounded-46 NewMessageForm-newMessageFieldWrapper-44"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="MuiInput-root-72 MuiInput-fullWidth-80 MuiInput-inkbar-74 MuiInput-underline-78"
+      onBlur={[Function]}
+      onFocus={[Function]}
+    >
+      <input
+        aria-invalid={undefined}
+        aria-required={undefined}
+        autoComplete={undefined}
+        autoFocus={undefined}
+        className="MuiInput-input-81"
+        defaultValue={undefined}
+        disabled={false}
+        id={undefined}
+        name={undefined}
+        onChange={[Function]}
+        onKeyDown={undefined}
+        onKeyUp={undefined}
+        placeholder="Type your message..."
+        readOnly={undefined}
+        required={undefined}
+        rows={undefined}
+        type="text"
+        value=""
+      />
+    </div>
+  </form>
+</div>
+`;

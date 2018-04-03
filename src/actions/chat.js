@@ -4,6 +4,26 @@ import { unmountChat } from './sockets';
 import history from '../utils/history';
 import backend from '../services/backend';
 
+export function createChatRequest() {
+  return {
+    type: ActionType.CREATE_CHAT_REQUEST,
+  };
+}
+
+export function createChatSuccess(createdChat) {
+  return {
+    type: ActionType.CREATE_CHAT_SUCCESS,
+    payload: createdChat,
+  };
+}
+
+export function createChatError(error) {
+  return {
+    type: ActionType.CREATE_CHAT_ERROR,
+    payload: error,
+  };
+}
+
 export function createChat(chatTitle) {
   return (dispatch, getState) => {
     if (getState().isFetching.createChat) {
@@ -14,28 +34,28 @@ export function createChat(chatTitle) {
 
     backend
       .createChat({ title: chatTitle })
-      .then((responseData) => dispatch(createChatSuccess(responseData)))
-      .catch((error) => dispatch(createChatError(error)))
-  }
+      .then(responseData => dispatch(createChatSuccess(responseData)))
+      .catch(error => dispatch(createChatError(error)));
+  };
 }
 
-export function createChatRequest() {
+export function getChatsRequest() {
   return {
-    type: ActionType.CREATE_CHAT_REQUEST
-  }
+    type: ActionType.GET_CHATS_REQUEST,
+  };
 }
 
-export function createChatSuccess(createdChat) {
+export function getChatsSuccess(chats) {
   return {
-    type: ActionType.CREATE_CHAT_SUCCESS,
-    payload: createdChat
-  }
+    type: ActionType.GET_CHATS_SUCCESS,
+    payload: chats,
+  };
 }
 
-export function createChatError(error) {
+export function getChatsError(error) {
   return {
-    type: ActionType.CREATE_CHAT_ERROR,
-    payload: error
+    type: ActionType.GET_CHATS_ERROR,
+    payload: error,
   };
 }
 
@@ -49,29 +69,29 @@ export function getChats() {
 
     backend
       .getChats()
-      .then((responseData) => dispatch(getChatsSuccess(responseData)))
-      .catch((error) => dispatch(getChatsError(error)))
+      .then(responseData => dispatch(getChatsSuccess(responseData)))
+      .catch(error => dispatch(getChatsError(error)));
   };
 }
 
-export function getChatsRequest() {
+export function joinChatRequest() {
   return {
-    type: ActionType.GET_CHATS_REQUEST
-  }
+    type: ActionType.JOIN_CHAT_REQUEST,
+  };
 }
 
-export function getChatsSuccess(chats) {
+export function joinChatSuccess(updatedChat) {
   return {
-    type: ActionType.GET_CHATS_SUCCESS,
-    payload: chats
-  }
+    type: ActionType.JOIN_CHAT_SUCCESS,
+    payload: updatedChat,
+  };
 }
 
-export function getChatsError(error) {
+export function joinChatError(error) {
   return {
-    type: ActionType.GET_CHATS_ERROR,
-    payload: error
-  }
+    type: ActionType.JOIN_CHAT_ERROR,
+    payload: error,
+  };
 }
 
 export function joinChat(chatId) {
@@ -79,34 +99,34 @@ export function joinChat(chatId) {
     if (getState().isFetching.joinChat) {
       return;
     }
-    
+
     dispatch(joinChatRequest());
 
     backend
       .joinChat(chatId)
-      .then((responseData) => dispatch(joinChatSuccess(responseData)))
-      .catch((error) => dispatch(joinChatError(error)))
+      .then(responseData => dispatch(joinChatSuccess(responseData)))
+      .catch(error => dispatch(joinChatError(error)));
   };
 }
 
-export function joinChatRequest() {
+export function leaveChatRequest() {
   return {
-    type: ActionType.JOIN_CHAT_REQUEST
-  }
+    type: ActionType.LEAVE_CHAT_REQUEST,
+  };
 }
 
-export function joinChatSuccess(updatedChat) {
+export function leaveChatSuccess(updatedChat) {
   return {
-    type: ActionType.JOIN_CHAT_SUCCESS,
-    payload: updatedChat
-  }
+    type: ActionType.LEAVE_CHAT_SUCCESS,
+    payload: updatedChat,
+  };
 }
 
-export function joinChatError(error) {
+export function leaveChatError(error) {
   return {
-    type: ActionType.JOIN_CHAT_ERROR,
-    payload: error
-  }
+    type: ActionType.LEAVE_CHAT_ERROR,
+    payload: error,
+  };
 }
 
 export function leaveChat(chatId) {
@@ -119,29 +139,29 @@ export function leaveChat(chatId) {
 
     backend
       .leaveChat(chatId)
-      .then((responseData) => dispatch(leaveChatSuccess(responseData)))
-      .catch((error) => dispatch(leaveChatError(error)));
-  }
+      .then(responseData => dispatch(leaveChatSuccess(responseData)))
+      .catch(error => dispatch(leaveChatError(error)));
+  };
 }
 
-export function leaveChatRequest() {
+export function deleteChatRequest() {
   return {
-    type: ActionType.LEAVE_CHAT_REQUEST
-  }
+    type: ActionType.DELETE_CHAT_REQUEST,
+  };
 }
 
-export function leaveChatSuccess(updatedChat) {
+export function deleteChatSuccess(removedChat) {
   return {
-    type: ActionType.LEAVE_CHAT_SUCCESS,
-    payload: updatedChat
-  }
+    type: ActionType.DELETE_CHAT_SUCCESS,
+    payload: removedChat,
+  };
 }
 
-export function leaveChatError(error) {
+export function deleteChatError(error) {
   return {
-    type: ActionType.LEAVE_CHAT_ERROR,
-    payload: error
-  }
+    type: ActionType.DELETE_CHAT_ERROR,
+    payload: error,
+  };
 }
 
 export function deleteChat(chatId) {
@@ -159,28 +179,28 @@ export function deleteChat(chatId) {
         dispatch(unmountChat(chatId));
         history.push('/chat');
       })
-      .catch((error) => dispatch(deleteChatError(error)));
+      .catch(error => dispatch(deleteChatError(error)));
   };
 }
 
-export function deleteChatRequest() {
+export function getMessagesRequest() {
   return {
-    type: ActionType.DELETE_CHAT_REQUEST
-  }
+    type: ActionType.GET_MESSAGES_REQUEST,
+  };
 }
 
-export function deleteChatSuccess(removedChat) {
+export function getMessagesSuccess(chat) {
   return {
-    type: ActionType.DELETE_CHAT_SUCCESS,
-    payload: removedChat
-  }
+    type: ActionType.GET_MESSAGES_SUCCESS,
+    payload: chat.messages,
+  };
 }
 
-export function deleteChatError(error) {
+export function getMessagesError(error) {
   return {
-    type: ActionType.DELETE_CHAT_ERROR,
-    payload: error
-  }
+    type: ActionType.GET_MESSAGES_ERROR,
+    payload: error,
+  };
 }
 
 export function getMessages(chatId) {
@@ -193,29 +213,29 @@ export function getMessages(chatId) {
 
     backend
       .getMessages(chatId)
-      .then((responseData) => dispatch(getMessagesSuccess(responseData)))
-      .catch((error) => dispatch(getMessagesError(error)));
-  }
+      .then(responseData => dispatch(getMessagesSuccess(responseData)))
+      .catch(error => dispatch(getMessagesError(error)));
+  };
 }
 
-export function getMessagesRequest() {
+export function editUserRequest() {
   return {
-    type: ActionType.GET_MESSAGES_REQUEST
-  }
+    type: ActionType.EDIT_USER_REQUEST,
+  };
 }
 
-export function getMessagesSuccess(chat) {
+export function editUserSuccess(user) {
   return {
-    type: ActionType.GET_MESSAGES_SUCCESS,
-    payload: chat.messages
-  }
+    type: ActionType.EDIT_USER_SUCCESS,
+    payload: user,
+  };
 }
 
-export function getMessagesError(error) {
+export function editUserError(error) {
   return {
-    type: ActionType.GET_MESSAGES_ERROR,
-    payload: error
-  }
+    type: ActionType.EDIT_USER_ERROR,
+    payload: error,
+  };
 }
 
 export function editUser(username, firstName, lastName) {
@@ -228,55 +248,35 @@ export function editUser(username, firstName, lastName) {
 
     backend
       .editUser({ username, firstName, lastName })
-      .then((responseData) => dispatch(editUserSuccess(responseData)))
-      .catch((error) => dispatch(editUserError(error)));
+      .then(responseData => dispatch(editUserSuccess(responseData)))
+      .catch(error => dispatch(editUserError(error)));
   };
 }
-
-export function editUserRequest() {
-  return {
-    type: ActionType.EDIT_USER_REQUEST
-  }
-}
-
-export function editUserSuccess(user) {
-  return {
-    type: ActionType.EDIT_USER_SUCCESS,
-    payload: user
-  }
-}
-
-export function editUserError(error) {
-  return {
-    type: ActionType.EDIT_USER_ERROR,
-    payload: error
-  }
-} 
 
 export function setActiveChat(chatId) {
   return {
     type: ActionType.SET_ACTIVE_CHAT,
-    payload: chatId
-  }
+    payload: chatId,
+  };
 }
 
 export function showAllChats() {
   return {
-    type: ActionType.SHOW_ALL_CHATS
-  }
+    type: ActionType.SHOW_ALL_CHATS,
+  };
 }
 
 export function showMyChats() {
   return {
-    type: ActionType.SHOW_MY_CHATS
-  }
+    type: ActionType.SHOW_MY_CHATS,
+  };
 }
 
 export function chatQueryChange(query) {
   return {
     type: ActionType.CHAT_QUERY_CHANGE,
-    payload: query
-  }
+    payload: query,
+  };
 }
 
 export function quit() {
@@ -284,5 +284,5 @@ export function quit() {
     dispatch(logout());
     localStorage.removeItem('token');
     history.push('/');
-  }
+  };
 }

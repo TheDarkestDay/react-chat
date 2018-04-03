@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<div
+  className="ChatWelcome-wrapper-57"
+>
+  <div
+    className="MuiPaper-root-58 MuiPaper-shadow2-62 MuiPaper-rounded-59 ChatWelcome-paper-56"
+  >
+    <h1
+      className="MuiTypography-root-85 MuiTypography-display1-89 MuiTypography-colorTextSecondary-107 MuiTypography-gutterBottom-102"
+    >
+      Start messaging...
+    </h1>
+    <p
+      className="MuiTypography-root-85 MuiTypography-body1-94 MuiTypography-colorInherit-104 MuiTypography-gutterBottom-102"
+    >
+      Use 
+      <span
+        className="ChatWelcome-bold-55"
+      >
+        Global
+      </span>
+       to explore communities around here.
+    </p>
+    <p
+      className="MuiTypography-root-85 MuiTypography-body1-94 MuiTypography-colorInherit-104 MuiTypography-gutterBottom-102"
+    >
+      Use 
+      <span
+        className="ChatWelcome-bold-55"
+      >
+        Recents
+      </span>
+       to see your recent conversations.
+    </p>
+  </div>
+</div>
+`;

@@ -1,21 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
 const styles = () => ({
   bold: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   paper: {
-    padding: '24px'
+    padding: '24px',
   },
   wrapper: {
     display: 'flex',
     flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 const ChatWelcome = ({ classes }) => (
@@ -33,5 +34,9 @@ const ChatWelcome = ({ classes }) => (
     </Paper>
   </div>
 );
+
+ChatWelcome.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+};
 
 export default withStyles(styles)(ChatWelcome);
